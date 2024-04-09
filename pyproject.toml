@@ -1,0 +1,53 @@
+[project]
+name = "jax_rb"
+authors = [
+  { name="Stefan Sommer", email="sommer@di.ku.dk" },
+  { name="Du Nguyen", email="dnguyend@gmail.com" },
+]
+description = "Tree traversals using jax"
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: Apache Software License",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    "jax",
+]
+dynamic = ["version"]
+
+[project.optional-dependencies]
+examples = [
+    "jax_rb",
+    "matplotlib",    
+]
+
+tests = [
+     "numpy",
+     "scipy",
+     "mpmath",
+     "matplotlib",     
+]      
+
+dev = [
+    "flake8",
+    "jupyter",
+    "matplotlib",
+    "mypy",
+    "pytest",
+]
+
+[project.urls]
+Homepage = "https://github.com/dnguyend/jax-rb"
+Issues = "https://github.com/dnguyend/jax-rb/issues"
+
+[build-system]
+requires = [
+    "setuptools>=60",
+    "setuptools-scm>=8.0",
+]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools_scm]
+version_file = "jax_rb/_version.py"
