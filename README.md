@@ -15,4 +15,4 @@ Eventually we will upload this to pypi and the users can install from there.
 * Simulation for the manifolds in the article are in the folder tests/run. See the README under the tests/run folder.
 
 ## Tests
-* See the README file in the test folder for testing the connection, projection, Laplace-Beltrami operator and the drift.
+* See the README file in the folder 'tests' for testing the connection, projection, Laplace-Beltrami operator and the drift.
