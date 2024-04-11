@@ -34,7 +34,7 @@ def geodesic_move_exact(mnf, x, unit_move, scale):
 
 @partial(jit, static_argnums=(0,))
 def geodesic_move_exact_normalized(mnf, x, unit_move, scale):
-    """ similar to geodesic_move_exact, but use exact geodesic
+    """ similar to geodesic_move_exact, but use normalize the unit_move
     """
     # stochastic dx
     v = mnf.proj(x, mnf.sigma(x, unit_move.reshape(mnf.shape)))

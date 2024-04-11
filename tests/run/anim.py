@@ -1,13 +1,16 @@
+import os
 import jax.numpy as jnp
-from jax import random
+from jax import random, lax
 import matplotlib.pyplot as plt
 from matplotlib import animation
 from matplotlib import rc
 
+from jax_rb.manifolds.sphere import Sphere
 from jax_rb.manifolds.se_left_invariant import SELeftInvariant
 from jax_rb.manifolds.affine_left_invariant import AffineLeftInvariant
 
 import jax_rb.simulation.matrix_group_integrator as sim
+import jax_rb.simulation.global_manifold_integrator as gmi
 from jax_rb.utils.utils import grand
 
 
@@ -23,7 +26,7 @@ def run_affine2d():
         # ANIMATION FUNCTION
         for i in range(n_f):
             lines[i].set_data(x_arr[:num, :, i].T)  # cannot set 3d data, break to two commands
-            if num > 0:
+            if num > 1:
                 dots[i].set_data(x_arr[num-2:num-1, :2, i].T)
         return lines
 
@@ -70,7 +73,7 @@ def run_affine2d():
     # Creating the Animation object
     line_ani = animation.FuncAnimation(
         fig, func, frames=N, fargs=(x_arr, lines, dots), interval=50, blit=False)
-    line_ani.save('af2_animation.mp4', fps=30, extra_args=['-vcodec', 'libx264'])
+    line_ani.save(os.path.join(save_dir, 'af2_animation.mp4'), fps=30, extra_args=['-vcodec', 'libx264'])
 
     plt.show()
 
@@ -88,7 +91,7 @@ def run_affine3d():
         for i in range(n_f):
             lines[i].set_data(x_arr[:num, :2, i].T)  # cannot set 3d data, break to two commands
             lines[i].set_3d_properties(x_arr[:num, 2, i])
-            if num > 0:
+            if num > 1:
                 dots[i].set_data(x_arr[num-2:num-1, :2, i].T)
                 dots[i].set_3d_properties(x_arr[num-2:num-1, 2, i].T)
         return lines
@@ -138,7 +141,8 @@ def run_affine3d():
     # Creating the Animation object
     line_ani = animation.FuncAnimation(
         fig, func, frames=N, fargs=(x_arr, lines, dots), interval=50, blit=False)
-    line_ani.save('af3_animation.mp4', fps=30, extra_args=['-vcodec', 'libx264'])
+    line_ani.save(os.path.join(save_dir, 'af3_animation.mp4'),
+                  fps=30, extra_args=['-vcodec', 'libx264'])
 
     plt.show()
 
@@ -156,9 +160,9 @@ def run_se_3d():
         for i in range(n_f):
             lines[i].set_data(x_arr[:num, :2, i].T)  # cannot set 3d data, break to two commands
             lines[i].set_3d_properties(x_arr[:num, 2, i])
-            if num > 0:
-                dots[i].set_data(x_arr[num-1, :2, i].T)
-                dots[i].set_3d_properties(x_arr[num-1, 2, i].T)
+            if num > 1:
+                dots[i].set_data(x_arr[num-2:num-1, :2, i].T)
+                dots[i].set_3d_properties(x_arr[num-2:num-1, 2, i].T)
         return lines
 
     # THE DATA POINTS
@@ -202,7 +206,7 @@ def run_se_3d():
     # Creating the Animation object
     line_ani = animation.FuncAnimation(
         fig, func, frames=N, fargs=(x_arr, lines, dots), interval=50, blit=False)
-    line_ani.save('se3_animation.mp4', fps=30, extra_args=['-vcodec', 'libx264'])
+    line_ani.save(os.path.join(save_dir, 'se3_animation.mp4'), fps=30, extra_args=['-vcodec', 'libx264'])
 
     plt.show()
 
@@ -257,64 +261,56 @@ def run_se_2d():
     # Creating the Animation object
     line_ani = animation.FuncAnimation(
         fig, func, frames=N, fargs=(x_arr, lines, dots,), interval=200, blit=False)
-    line_ani.save('se2_animation.mp4', fps=30, extra_args=['-vcodec', 'libx264'])
+    line_ani.save(os.path.join(save_dir, 'se2_animation.mp4'), fps=30, extra_args=['-vcodec', 'libx264'])
 
     plt.show()
 
 
-    
-
-def run_affine_bad():
-    """ Animation for :math:`Aff^+(3)`
+def sphere_simulate():
+    """ long term simulation for the sphere
     """
-    rc('animation', html='jshtml')
-    fig = plt.figure(figsize=(8, 6))
-    n_dim = 3
-    
-    ax = plt.axes(projection='3d')
+    n = 3
+    n_pnt = 10000
     key = random.PRNGKey(0)
-    colors = itertools.cycle(["r", "b", "g"])
-    r = 40
-    plot_size = 1000
-    
-    n_f = 5
-    
-    x_pnt, key = grand(key, (n_dim, n_f))
-    # x_pnt = jnp.zeros((n_dim, n_f))
-    # x_pnt = x_pnt
+    step = .1
+    # x_i = [jnp.zeros(n).at[-1].set(1.)]
+    x_i = jnp.zeros((n, n_pnt+1))
+    x_i = x_i.at[:, 0].set(jnp.zeros(n).at[-1].set(1.))
+    seq, _ = grand(key, (n, n_pnt))
+    sph = Sphere(n, 1.)
+    ax = plt.axes(projection='3d')
 
-    af_dim = n_dim*(n_dim+1)
-    # se_n = sem.SELeftInvariant(n_dim, jnp.eye(se_dim).at[-1].set(7))
-    
-    # diag = jnp.ones(se_dim).at[2].set(r/10).at[4].set(r/10).at[5].set(r/10)
-    
-    af_n = AffineLeftInvariant(n_dim, .1*jnp.eye(af_dim))
-    scale = .01
+    # for j in range(n_pnt):
+    #    x_i.append(gmi.geodesic_move_normalized(sph, x_i[-1], seq[:, j]/jnp.sqrt(jnp.sum(seq[:, j]**2)), step))
+    x_i= lax.fori_loop(1, n_pnt+1,
+                  lambda i, val: val.at[:, i].set(gmi.geodesic_move_normalized(
+                      sph, val[:, i-1], seq[:, i]/jnp.sqrt(jnp.sum(seq[:, i]**2)), step)), x_i)
 
-    def frame(_):
-        ax.clear()
-     
-        driver_move, key = grand(key, ((n_dim+1)**2,))
-        g = sim.geodesic_move(af_n, jnp.eye(n_dim+1), driver_move, scale)
-        x_pnt = g[:-1, :-1]@x_pnt + g[:-1, -1][:, None]
-        plt.title("Brownian Motion")
-        ax.set_xlabel('X(t)')
-        ax.set_xlim3d(-plot_size, plot_size)
-        ax.set_ylabel('Y(t)')
-        ax.set_ylim3d(-plot_size, plot_size)
-        ax.set_zlabel('Z(t)')
-        ax.set_zlim3d(-plot_size, plot_size)
-        plot=ax.scatter3D(x_pnt[0, :], x_pnt[1, :], x_pnt[2, :], c=next(colors))
-        return plot
+    # x_i = jnp.array(x_i).T
+    ax.grid(False)
 
-    anim = animation.FuncAnimation(fig, frame, frames=100, blit=False, repeat=True)
-    plt.show()
+    # Hide axes ticks
+    ax.set_xticks([])
+    ax.set_yticks([])
+    ax.set_zticks([])
+    plt.axis('off')
+    ax.scatter3D(x_i[0, :], x_i[1, :], x_i[2, :], marker='o', s=.1)
+    plt.savefig(os.path.join(save_dir, 'sphere_long_term.png'))
 
-    
+
 if __name__ == '__main__':
     print("Please close each animation to move on to the next one.")
-    run_se_2d()    
+    import sys
+    if len(sys.argv) < 2:
+        print(f"Please run with format python {sys.argv[0]} [output_dir]. Files will be saved in [output_dir]/se")
+        sys.exit()
+
+    save_dir = f"{sys.argv[1]}"
+    print(save_dir)
+    
+    run_se_2d()
     run_se_3d()
     run_affine2d()
+    sphere_simulate()
     # 3d works, but is too dense
     # run_affine3d()
