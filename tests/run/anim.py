@@ -1,4 +1,5 @@
 import os
+import jax
 import jax.numpy as jnp
 from jax import random, lax
 import matplotlib.pyplot as plt
@@ -12,6 +13,43 @@ from jax_rb.manifolds.affine_left_invariant import AffineLeftInvariant
 import jax_rb.simulation.matrix_group_integrator as sim
 import jax_rb.simulation.global_manifold_integrator as gmi
 from jax_rb.utils.utils import grand
+
+
+def make_brownian_loop(mnf, key, n_dim, n_f, lin_comb, scale, n_pnts):
+    """ return one single path
+    """
+    x_0, key = grand(key, (n_dim, n_f))
+    if not (lin_comb is None):
+        x_0 = x_0.at[:, n_dim+1:n_f].set(x_0[:, :n_dim+1]@lin_comb)
+    x_arr = [10*x_0]
+
+    driver_move, key = grand(key, ((n_dim+1)**2, n_pnts))
+    for i in jnp.arange(1, n_pnts):
+        g = sim.geodesic_move(mnf, jnp.eye(n_dim+1), driver_move[:, i-1], scale)
+        x_arr.append(g[:-1, :-1]@x_arr[i-1] + g[:-1, -1][:, None])
+    return jnp.array(x_arr)
+
+
+def make_brownian(mnf, key, n_dim, n_f, lin_comb, scale, n_pnts):
+    """ return one single path
+    fori is slower for small n_pnts but fast for large n_pnts
+    # the GPU version looks funny. CPU is correct
+    """
+    x_0, key = grand(key, (n_dim, n_f))
+
+    if not (lin_comb is None):
+        x_0 = x_0.at[:, n_dim+1:n_f].set(x_0[:, :n_dim+1]@lin_comb)
+    x_arr = jnp.zeros((n_pnts, n_dim*n_f))
+    x_arr = x_arr.at[0, :].set(10.*x_0.reshape(-1))
+    seq, _ = grand(key, ((n_dim+1)**2, n_pnts))
+
+    def body_fun(i, val):
+        g = sim.geodesic_move(mnf, jnp.eye(n_dim+1), seq[:, i-1], scale)
+        return val.at[i, :].set((g[:-1, :-1]@val[i-1, :].reshape(n_dim, n_f)
+                                 + g[:-1, -1][:, None]).reshape(-1))
+
+    x_arr = lax.fori_loop(1, n_pnts, body_fun, x_arr)
+    return x_arr.reshape(n_pnts, n_dim, n_f)
 
 
 def run_affine2d():
@@ -42,18 +80,9 @@ def run_affine2d():
     # lin_comb = jnp.array([[.25, .25, 0.25, .25], [1/2, .5, 0., 0.]]).T
     lin_comb = jnp.array([[1/2, .5, 0.]]).T
 
-    def make_brownian(key):
-        x_0, key = grand(key, (n_dim, n_f))
-        x_0 = x_0.at[:, n_dim+1:n_f].set(x_0[:, :n_dim+1]@lin_comb)
-        x_arr = [10*x_0]
-
-        for i in jnp.arange(1, N):
-            driver_move, key = grand(key, ((n_dim+1)**2,))
-            g = sim.geodesic_move(aff, jnp.eye(n_dim+1), driver_move, scale)
-            x_arr.append(g[:-1, :-1]@x_arr[i-1] + g[:-1, -1][:, None])
-        return jnp.array(x_arr)
     N = 200
-    x_arr = make_brownian(key)
+    # x_arr = make_brownian(key)
+    x_arr = make_brownian(aff, key, n_dim, n_f, lin_comb, scale, N)
 
     # GET SOME MATPLOTLIB OBJECTS
     fig = plt.figure()
@@ -108,18 +137,9 @@ def run_affine3d():
     # lin_comb = jnp.array([[.25, .25, 0.25, .25], [1/2, .5, 0., 0.]]).T
     lin_comb = jnp.array([[1/2, .5, 0., 0.]]).T
 
-    def make_brownian(key):
-        x_0, key = grand(key, (n_dim, n_f))
-        x_0 = x_0.at[:, n_dim+1:n_f].set(x_0[:, :n_dim+1]@lin_comb)
-        x_arr = [10*x_0]
-
-        for i in jnp.arange(1, N):
-            driver_move, key = grand(key, ((n_dim+1)**2,))
-            g = sim.geodesic_move(aff, jnp.eye(n_dim+1), driver_move, scale)
-            x_arr.append(g[:-1, :-1]@x_arr[i-1] + g[:-1, -1][:, None])
-        return jnp.array(x_arr)
+    # x_arr = make_brownian(key)
     N = 200
-    x_arr = make_brownian(key)
+    x_arr = make_brownian(aff, key, n_dim, n_f, lin_comb, scale, N)
 
     # GET SOME MATPLOTLIB OBJECTS
     fig = plt.figure()
@@ -152,8 +172,8 @@ def run_se_3d():
     """
     rc('animation', html='jshtml')
     n_dim = 3
-    n_f = 4
-    colors = ["r", "b", "g", "m"]
+    n_f = 5
+    colors = ["r", "b", "g", "m", "c"]
 
     def func(num, x_arr, lines, dots):
         # ANIMATION FUNCTION
@@ -174,7 +194,7 @@ def run_se_3d():
     se = SELeftInvariant(n_dim, jnp.diag(diag))
     scale = .4
 
-    def make_brownian(key):
+    def make_brownian_(key):
         x_0, key = grand(key, (n_dim, n_f))
         x_arr = [10*x_0]
 
@@ -184,7 +204,10 @@ def run_se_3d():
             x_arr.append(g[:-1, :-1]@x_arr[i-1] + g[:-1, -1][:, None])
         return jnp.array(x_arr)
     N = 200
-    x_arr = make_brownian(key)
+    lin_comb = jnp.array([[1/2, .5, 0., 0.]]).T
+
+    # x_arr = make_brownian(key)
+    x_arr = make_brownian(se, key, n_dim, n_f, lin_comb, scale, N)
 
     # GET SOME MATPLOTLIB OBJECTS
     fig = plt.figure()
@@ -231,7 +254,7 @@ def run_se_2d():
     diag = jnp.ones(se_dim).at[0].set(plot_size/4)
     se = SELeftInvariant(n_dim, jnp.diag(diag))
     scale = .4
-    def make_brownian(key):
+    def make_brownian_(key):
         # x_arr = jnp.empty((N, n_dim, n_f))
 
         x_0, key = grand(key, (n_dim, n_f))
@@ -244,7 +267,8 @@ def run_se_2d():
         return jnp.array(x_arr)
 
     N = 200
-    x_arr = make_brownian(key)
+    # x_arr = make_brownian(key)
+    x_arr = make_brownian(se, key, n_dim, n_f, None, scale, N)
 
     # GET SOME MATPLOTLIB OBJECTS
     fig = plt.figure()
@@ -282,9 +306,9 @@ def sphere_simulate():
 
     # for j in range(n_pnt):
     #    x_i.append(gmi.geodesic_move_normalized(sph, x_i[-1], seq[:, j]/jnp.sqrt(jnp.sum(seq[:, j]**2)), step))
-    x_i= lax.fori_loop(1, n_pnt+1,
+    x_i = lax.fori_loop(1, n_pnt+1,
                   lambda i, val: val.at[:, i].set(gmi.geodesic_move_normalized(
-                      sph, val[:, i-1], seq[:, i]/jnp.sqrt(jnp.sum(seq[:, i]**2)), step)), x_i)
+                      sph, val[:, i-1], seq[:, i-1]/jnp.sqrt(jnp.sum(seq[:, i-1]**2)), step)), x_i)
 
     # x_i = jnp.array(x_i).T
     ax.grid(False)
@@ -299,10 +323,12 @@ def sphere_simulate():
 
 
 if __name__ == '__main__':
+    jax.config.update('jax_default_device', jax.devices('cpu')[0])
+    
     print("Please close each animation to move on to the next one.")
     import sys
     if len(sys.argv) < 2:
-        print(f"Please run with format python {sys.argv[0]} [output_dir]. Files will be saved in [output_dir]/se")
+        print(f"Please run with format python {sys.argv[0]} [output_dir]. Files will be saved in [output_dir]")
         sys.exit()
 
     save_dir = f"{sys.argv[1]}"
