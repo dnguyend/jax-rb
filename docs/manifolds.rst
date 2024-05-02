@@ -43,6 +43,15 @@ jax\_rb.manifolds
 	.. automodule:: jax_rb.manifolds.grassmann
 	.. autoclass:: Grassmann
 
+	Hypersurface with Diagonal constraints Manifold
+	================================================
+	.. autosummary::
+	   :toctree: _autosummary
+
+	.. automodule:: jax_rb.manifolds.diag_hypersurface
+	.. autoclass:: DiagHypersurface
+		       
+
 	Matrix Lie Group Left Invariant Metric
 	=======================================
 	.. autosummary::

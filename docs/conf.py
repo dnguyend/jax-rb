@@ -7,8 +7,8 @@
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
 project = 'jax_rb'
-copyright = '2024, Stefan Sommer, Du Nguyen'
-author = 'Stefan Sommer, Du Nguyen'
+copyright = '2024, Du Nguyen, Stefan Sommer'
+author = 'Du Nguyen, Stefan Sommer'
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
