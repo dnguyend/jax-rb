@@ -10,7 +10,7 @@ from jax import jit
 @partial(jit, static_argnums=(0,))
 def geodesic_move(mnf, x, unit_move, scale):
     """ simulate using a second order retraction.
-    The move is :math:`x_{new} = \\mathfrak{r}(x, \\Pi(x)\\sigma(x)(unit{\_}move(scale)^{\\frac{1}{2}}))`
+    The move is :math:`x_{new} = \\mathfrak{r}(x, \\Pi(x)\\sigma(x)(\\text{unit_move}(\\text{scale})^{\\frac{1}{2}}))`
     """
     return mnf.retract(x, mnf.proj(x, mnf.sigma(x, unit_move.reshape(mnf.shape)*jnp.sqrt(scale))))
 

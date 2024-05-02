@@ -27,6 +27,15 @@ jax\_rb.simulation
 
 	.. automodule:: jax_rb.simulation.global_manifold_integrator
 	   :members:
+
+	Retractive Integrator
+	=============================
+	.. autosummary::
+	   :toctree: _autosummary
+
+	.. automodule:: jax_rb.simulation.retractive_integrator
+	   :members:
+	      
 			  
    
    

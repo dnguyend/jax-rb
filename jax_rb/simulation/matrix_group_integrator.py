@@ -10,7 +10,7 @@ from jax import jit
 @partial(jit, static_argnums=(0,))
 def geodesic_move(mnf, x, unit_move, scale):
     """ unit_move is reshaped to the shape conforming with sigma., usually the shape of the ambient space.
-    The move is :math:`x_{new} = \\mathfrak{r}(x, \\sigma(x)(unit{\_}move(scale)^{\\frac{1}{2}}))`
+    The move is :math:`x_{new} = \\mathfrak{r}(x, \\sigma(x)(\\text{unit_move}(\\text{scale})^{\\frac{1}{2}}))`
     """
     return x@mnf.retract(jnp.eye(mnf.shape[0]),
                          mnf.sigma_id(
@@ -30,7 +30,7 @@ def geodesic_move_normalized(mnf, x, unit_move, scale):
 @partial(jit, static_argnums=(0,))
 def geodesic_move_dim_g(mnf, x, unit_move, scale):
     """Unit_move is of dimension :math:`\\dim \\mathrm{G}`.
-    The move is :math:`x_{new} = \\mathfrak{r}(x, \\sigma_{la}(x)(unit{\_}move(scale)^{\\frac{1}{2}}))`
+    The move is :math:`x_{new} = \\mathfrak{r}(x, \\sigma_{la}(x)(\\text{unit_move}(\\text{scale})^{\\frac{1}{2}}))`
     """
     return x@mnf.retract(jnp.eye(mnf.shape[0]),
                          mnf.sigma_la(jnp.sqrt(scale)*unit_move))

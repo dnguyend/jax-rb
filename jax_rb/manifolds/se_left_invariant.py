@@ -15,10 +15,10 @@ class SELeftInvariant(MatrixLeftInvariant):
     represented by a pair :math:`(A, v)\\in SO^(n)\\times \\mathbb{R}^{n}`
     with action :math:`(A, v).w = Aw + v` for :math:`w\\in\\mathbb{R}^{n}` .
 
-    Alternatively, it is represented as a matrix :math:`\\begin{bmatrix} A & v \\\\ 0 & 1 \\end{bmatrix}\\in  GL(n+1)` where :math:`A\in SO(n)`.
+    Alternatively, it is represented as a matrix :math:`\\begin{bmatrix} A & v \\\\ 0 & 1 \\end{bmatrix}\\in  GL(n+1)` where :math:`A\\in SO(n)`.
 
     :param n: size of A
-    :param g_mat: a positive definite matrix in :math:`\mathbb{R}^{\\frac{n(n+1)}{2}\\times\\frac{n(n+1)}{2}}` defining the metric at :math:`I_{n+1}`
+    :param g_mat: a positive definite matrix in :math:`\\mathbb{R}^{\\frac{n(n+1)}{2}\\times\\frac{n(n+1)}{2}}` defining the metric at :math:`I_{n+1}`
     """
     def __init__(self, n, g_mat):
         """ g_mat is a matrix of size (n(n+1)//2)**2
