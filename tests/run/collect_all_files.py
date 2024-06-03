@@ -176,7 +176,7 @@ def create_latex_tables(detail_file):
 
     df3 = pd.DataFrame(df2, columns =new_cols)
 
-    r, c = 24, 8
+    r, c = 27, 8
     table = np.empty((r, c), dtype=object)
     for i in range(c):
         for j in range(r):
@@ -211,7 +211,7 @@ def create_latex_tables(detail_file):
 if __name__ == '__main__':
     import sys
     if len(sys.argv) < 2:
-        print(f"Please run with format python {sys.argv[0]} [output_dir]. Files will be saved in [output_dir]/uniform")
+        print(f"Please run with format python {sys.argv[0]} [output_dir]. Files will be saved in [output_dir]")
         sys.exit()
 
     # sdir = f"{sys.argv[1]}/uniform"
