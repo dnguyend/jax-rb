@@ -83,12 +83,14 @@ def run_all_stiefel(save_dir):
             for a in itertools.product(t_finals, n_divs, d_coeffs, range(n_keys)):
                 key, subkey = random.split(key)
                 t_final, n_div, d_coeff, _ = a
+                """
                 one_run(mnf, gmi.geodesic_move_exact,
                         (False, 'geodesic_move_exact', t_final, n_div,
                          d_coeff, subkey, n_path, stor))
                 one_run(mnf, gmi.geodesic_move_exact_normalized,
                         (True, 'geodesic_move_exact_normalized', t_final, n_div,
                          d_coeff, subkey, n_path, stor))
+                """
                 one_run(mnf, gmi.geodesic_move_normalized,
                         (True, 'geodesic_move_normalized', t_final, n_div,                         
                          d_coeff, subkey, n_path, stor))
@@ -103,7 +105,7 @@ def run_all_stiefel(save_dir):
                 
 
 if __name__ == '__main__':
-    jax.config.update('jax_default_device', jax.devices('cpu')[0])
+    # jax.config.update('jax_default_device', jax.devices('cpu')[0])
     import sys
     if len(sys.argv) < 2:
         print(f"Please run with format python {sys.argv[0]} [output_dir]. Files will be saved in [output_dir]/stiefel")
