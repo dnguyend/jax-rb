@@ -116,10 +116,10 @@ def generate_symmetric_tensor(key, k, m):
     """Generating symmetric tensor size k,m
     """
     mat = jnp.full(tuple(m*[k]), jnp.nan)
-    current_idx = jnp.zeros(m, dtype=int)
+    current_idx = m*[0]
     active_i = m - 1
     tval, key = grand(key, (1,))
-    mat = mat.at[tuple(current_idx)].set(tval)
+    mat = mat.at[tuple(current_idx)].set(tval[0])
     while True:
         if current_idx[active_i] < k - 1:
             current_idx[active_i] += 1
@@ -127,18 +127,19 @@ def generate_symmetric_tensor(key, k, m):
                 i_s = tuple(sorted(current_idx))
                 if jnp.isnan(mat[i_s]):
                     tval, key = grand(key, (1,))
-                    mat = mat.at[i_s].set(tval)
+                    mat = mat.at[i_s].set(tval[0])
                     # print('Doing %s' % str(i_s))
-                mat[tuple(current_idx)] = mat[i_s]
+                mat = mat.at[tuple(current_idx)].set(mat[i_s])
                 # print('Doing %s' % str(current_idx))
         elif active_i == 0:
             break
         else:
-            next_pos = jnp.where(current_idx[:active_i] < k-1)[0]
+            next_pos = jnp.where(jnp.array(current_idx)[:active_i] < k-1)[0]
             if next_pos.shape[0] == 0:
                 break
             current_idx[next_pos[-1]] += 1
-            current_idx[next_pos[-1]+1:] = 0
+            for jx in range(next_pos[-1]+1, m):
+                current_idx[jx] = 0
 
             active_i = m - 1
             if jnp.isnan(mat[tuple(current_idx)]):
