@@ -127,7 +127,7 @@ def run_all_spd(save_dir):
                          d_coeff, subkey, n_path, stor))
                 
             # stor.save_runs(os.path.join(save_dir, f"spd_paper_{n}_{po_idx}"))
-            stor.save_runs(os.path.join(save_dir, f"spd_rerun_{n}_{po_idx}"))
+            stor.save_runs(os.path.join(save_dir, f"spd_paper_{n}_{po_idx}"))
             po_idx += 1
     # display([(jnp.nanmean(a[1]), a[0].run_type) for a in stor.runs])
 
