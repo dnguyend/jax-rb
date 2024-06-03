@@ -392,7 +392,7 @@ def analyze_files(ret):
 
 if __name__ == '__main__':
     import sys
-    jax.config.update('jax_default_device', jax.devices('cpu')[0])
+    # jax.config.update('jax_default_device', jax.devices('cpu')[0])
     jax.config.update("jax_enable_x64", True)
     N_PATH = 1000
     if len(sys.argv) < 2:

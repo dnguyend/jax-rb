@@ -106,7 +106,7 @@ def run_all_grassmann(save_dir):
                 
 
 if __name__ == '__main__':
-    jax.config.update('jax_default_device', jax.devices('cpu')[0])
+    # jax.config.update('jax_default_device', jax.devices('cpu')[0])
     import sys
     if len(sys.argv) < 2:
         print(f"Please run with format python {sys.argv[0]} [output_dir]. Files will be saved in [output_dir]/grassmann")
