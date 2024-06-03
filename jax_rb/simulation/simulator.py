@@ -33,7 +33,7 @@ def simulate(x_0,
              params):
     """A simulation from :math:`t=0` up to time :math:`t=t_final`, with time increment
     :math:`t=\\frac{t_final}{n_div}`, run :math:`n_path` path.
-    return the full distribution of the simulation.
+    Return the full distribution of the simulation. We use the minimum cut-off with accuracy level 0.5 in this version.
 
     :param x_0: starting point of the simulation
     :param integrator: one of the integrators (geodesic, ito, stratonovich
@@ -42,7 +42,11 @@ def simulate(x_0,
     :param params: additional parameters for the simulations: sk, t_final, n_path, n_div, d_coeff, wiener_dim
     """
     sk, t_final, n_path, n_div, d_coeff, wiener_dim = params
+    p2 = 0.5
+    a_h = (2*p2*jnp.log(t_final/n_div))**.5
+
     x_all = random.normal(sk, (wiener_dim, n_div, n_path))
+    x_all = x_all.at[jnp.where(x_all > a_h)].set(a_h).at[jnp.where(x_all < -a_h)].set(-a_h)
 
     def do_one_path(seq):
         path_sum = 0.
@@ -60,7 +64,7 @@ def simulate(x_0,
 
     return pay_offs, x_all
 
-
+    
 class Simulator():
     """ Class to do simulation on a manifold
     with particular funtion or simulators. Run results is saved in self.runs.
