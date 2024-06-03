@@ -7,7 +7,7 @@ import jax
 import jax.numpy as jnp
 import jax.numpy.linalg as jla
 from .matrix_left_invariant import MatrixLeftInvariant
-from ..utils.utils import (sym, asym, jpolar)
+from ..utils.utils import (sym, asym)
 
 
 class SELeftInvariant(MatrixLeftInvariant):
@@ -76,14 +76,18 @@ class SELeftInvariant(MatrixLeftInvariant):
 
         return xt.at[:-1, :-1].set(xo).at[-1, :-1].set(0.).at[-1, -1].set(1.), key
 
+    # @partial(jax.jit, static_argnums=(0,))
     def retract(self, x, v):
         """ second order retraction, but simple
         """
         x1 = x + v - 0.5* self.proj(x, self.gamma(x, v, v))
-        return x1.at[:-1, :-1].set(jpolar(x1[:-1, :-1]))
+        u, _, v = jla.svd(x1[:-1, :-1])
+        return x1.at[:-1, :-1].set(u@v)
 
+    @partial(jax.jit, static_argnums=(0,))    
     def approx_nearest(self, q):
-        return q.at[:-1, :-1].set(jpolar(q[:-1, :-1]))
+        u, _, v = jla.svd(q[:-1, :-1])
+        return q.at[:-1, :-1].set(u@v)
 
     def pseudo_transport(self, x, y, v):
         """the easy one

@@ -7,7 +7,7 @@ import jax
 import jax.numpy as jnp
 import jax.numpy.linalg as jla
 from .matrix_left_invariant import MatrixLeftInvariant
-from ..utils.utils import (asym, lie, jpolar)
+from ..utils.utils import (asym, lie)
 
 
 class SOLeftInvariant(MatrixLeftInvariant):
@@ -56,13 +56,14 @@ class SOLeftInvariant(MatrixLeftInvariant):
         """ second order retraction, but simple
         """
         x1 = x + v - 0.5* self.proj_gamma(x, v, v)
-        # return jax.scipy.linalg.polar(x1)[0]
-        return jpolar(x1)
+        u, _, v = jla.svd(x1)
+
+        return u@v
 
     # @partial(jax.jit, static_argnums=(0,))
     def approx_nearest(self, q):
-        # return jax.scipy.linalg.polar(q)[0]
-        return jpolar(q)
+        u, _, v = jla.svd(q)
+        return u@v
 
     # @partial(jax.jit, static_argnums=(0,))
     def pseudo_transport(self, x, y, v):
