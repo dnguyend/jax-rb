@@ -4,7 +4,7 @@ authors = [
   { name="Stefan Sommer", email="sommer@di.ku.dk" },
   { name="Du Nguyen", email="dnguyend@gmail.com" },
 ]
-description = "Tree traversals using jax"
+description = "Riemannian Brownian motion using jax"
 readme = "README.md"
 requires-python = ">=3.8"
 classifiers = [
@@ -14,6 +14,7 @@ classifiers = [
 ]
 dependencies = [
     "jax",
+    "jaxlib",
 ]
 dynamic = ["version"]
 
