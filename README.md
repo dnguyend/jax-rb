@@ -1,5 +1,5 @@
 # JAX_RB: Riemannian Brownian motion
-This package provides a framework to implement Brownian motion on Riemannian manifolds.
+This package provides a framework to implement Brownian motion on Riemannian manifolds. Check out the [documentation page](https://dnguyend.github.io/jax-rb/index.html).
 ## Installation
 Requirement: [JAX](https://jax.readthedocs.io/en/latest/installation.html) (pip install jax). If we have access to GPU then install jax cuda following JAX's installation note (for example pip install --upgrade "jax[cuda12_pip]" -f https://storage.googleapis.com/jax-releases/jax_cuda_releases.html).
 
