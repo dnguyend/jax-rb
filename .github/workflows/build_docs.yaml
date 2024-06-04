@@ -1,30 +1,31 @@
-name: Deploy Sphinx documentation to Pages
+name: Publish Sphinx Documentation
 
 on:
   push:
-    branches: [main] # branch to trigger deployment
-  pull_request:
-    branches: [main]
-  workflow_dispatch:
-  
-# allow manually trigger the action
-
-
-permissions:
-  contents: write
-  id-token: write
+    branches:
+      - main
 
 jobs:
-  pages:
-    runs-on: ubuntu-20.04
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+  publish_sphinx_docs:
+    runs-on: ubuntu-latest
     permissions:
-      pages: write
-      id-token: write
+      contents: write
     steps:
-    - id: deployment
-      uses: sphinx-notes/pages@v3
-      with:
-        documentation_path: ./docs/source
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v3
+        with:
+          python-version: "3.10"
+      - name: Install dependencies
+        run: |
+          pip install -e .
+          pip install sphinx-rtd-theme
+      - name: Sphinx build
+        run: |
+          sphinx-build docs docs/_build/html
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          publish_branch: gh-pages
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: docs/_build/html
+          force_orphan: true
