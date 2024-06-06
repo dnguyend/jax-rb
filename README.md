@@ -11,7 +11,7 @@ pip install git+https://github.com/dnguyend/jax-rb
 ```
 Alternatively, you can clone the project to your local directory then add the directory to your PYTHONPATH. View [an example](https://github.com/dnguyend/jax-rb/blob/main/tests/notebooks/test_heat_kernel.ipynb) using sys.append, you can use PYTHONPATH similarly.
 
-If you want to to build the project manually from a cloned directory, go to the folder jax-rb then run
+If you want to build the project manually from a cloned directory, go to the folder jax-rb then run
 ```
 python -m build
 ```
