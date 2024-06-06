@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="Python" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>jax_rb.manifolds.global_manifold &mdash; jax_rb  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../_static/documentation_options.js?v=1e580bb1"></script>
+        <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            jax_rb
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Manifolds</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../manifolds.html">jax_rb.manifolds</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Simulation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../simulation.html">jax_rb.simulation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Utils</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../utils.html">jax_rb.utils</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Other Resources:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="https://en.wikipedia.org/wiki/Stochastic_analysis_on_manifolds">Wikipedia</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/dnguyend/jax-rb">GitHub</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../animation.html">Animation</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">jax_rb</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">jax_rb.manifolds.global_manifold</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for jax_rb.manifolds.global_manifold</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Base class for manifold in global embedded coordinates</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
+<span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABCMeta</span><span class="p">,</span> <span class="n">abstractmethod</span>
+
+<span class="kn">import</span> <span class="nn">jax</span>
+<span class="kn">import</span> <span class="nn">jax.numpy</span> <span class="k">as</span> <span class="nn">jnp</span>
+<span class="kn">from</span> <span class="nn">..utils.utils</span> <span class="kn">import</span> <span class="p">(</span><span class="n">grand</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="GlobalManifold">
+<a class="viewcode-back" href="../../../manifolds.html#jax_rb.manifolds.global_manifold.GlobalManifold">[docs]</a>
+<span class="k">class</span> <span class="nc">GlobalManifold</span><span class="p">(</span><span class="n">metaclass</span><span class="o">=</span><span class="n">ABCMeta</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A manifold :math:`\\mathcal{M}` embedded in a vector space :math:`\\mathcal{E}` .</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Constructor</span>
+
+<span class="sd">        :param shape: shape of the ambient vector space,</span>
+<span class="sd">        :param dim: dimension of the manifold.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">shape</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dim</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span>
+
+<div class="viewcode-block" id="GlobalManifold.name">
+<a class="viewcode-back" href="../../../manifolds.html#jax_rb.manifolds.global_manifold.GlobalManifold.name">[docs]</a>
+    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; name of the manifold.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
+
+
+<div class="viewcode-block" id="GlobalManifold.inner">
+<a class="viewcode-back" href="../../../manifolds.html#jax_rb.manifolds.global_manifold.GlobalManifold.inner">[docs]</a>
+    <span class="k">def</span> <span class="nf">inner</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Riemannian inner product.</span>
+
+<span class="sd">        :param a: a vector in ambient space,</span>
+<span class="sd">        :param b: a vector in ambient space,</span>
+<span class="sd">        :return: the inner product of a and b using the metric :math:`\\mathsf{g}` .</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
+
+
+<div class="viewcode-block" id="GlobalManifold.g_metric">
+<a class="viewcode-back" href="../../../manifolds.html#jax_rb.manifolds.global_manifold.GlobalManifold.g_metric">[docs]</a>
+    <span class="k">def</span> <span class="nf">g_metric</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">omg</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; the metric operator g, which is symmetric. The corresponding metric is</span>
+<span class="sd">        :math:`\\langle \\omega, g(x)\\omega \\rangle_{\\mathcal{E}}` .</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
+
+
+<div class="viewcode-block" id="GlobalManifold.inv_g_metric">
+<a class="viewcode-back" href="../../../manifolds.html#jax_rb.manifolds.global_manifold.GlobalManifold.inv_g_metric">[docs]</a>
+    <span class="k">def</span> <span class="nf">inv_g_metric</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">omg</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; inverse of the metric operator g.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
+
+
+<div class="viewcode-block" id="GlobalManifold.proj">
+<a class="viewcode-back" href="../../../manifolds.html#jax_rb.manifolds.global_manifold.GlobalManifold.proj">[docs]</a>
+    <span class="nd">@partial</span><span class="p">(</span><span class="n">jax</span><span class="o">.</span><span class="n">jit</span><span class="p">,</span> <span class="n">static_argnums</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,))</span>
+    <span class="k">def</span> <span class="nf">proj</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">omg</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Metric compatible projection</span>
+<span class="sd">        :param x: a point on the manifold,</span>
+<span class="sd">        :param omg: a vector on the ambient manifold :math:`\\mathcal{E}` ,</span>
+<span class="sd">        :returns: a point the tangent space at x.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
+
+
+<div class="viewcode-block" id="GlobalManifold.rand_ambient">
+<a class="viewcode-back" href="../../../manifolds.html#jax_rb.manifolds.global_manifold.GlobalManifold.rand_ambient">[docs]</a>
+    <span class="k">def</span> <span class="nf">rand_ambient</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Random ambient vector.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">grand</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="GlobalManifold.rand_vec">
+<a class="viewcode-back" href="../../../manifolds.html#jax_rb.manifolds.global_manifold.GlobalManifold.rand_vec">[docs]</a>
+    <span class="k">def</span> <span class="nf">rand_vec</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Random tangent vector at x.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">omg</span><span class="p">,</span> <span class="n">key</span> <span class="o">=</span> <span class="n">grand</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">proj</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">omg</span><span class="p">),</span> <span class="n">key</span></div>
+
+
+<div class="viewcode-block" id="GlobalManifold.rand_point">
+<a class="viewcode-back" href="../../../manifolds.html#jax_rb.manifolds.global_manifold.GlobalManifold.rand_point">[docs]</a>
+    <span class="k">def</span> <span class="nf">rand_point</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; A random point on the manifold.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
+
+
+<div class="viewcode-block" id="GlobalManifold.gamma">
+<a class="viewcode-back" href="../../../manifolds.html#jax_rb.manifolds.global_manifold.GlobalManifold.gamma">[docs]</a>
+    <span class="nd">@partial</span><span class="p">(</span><span class="n">jax</span><span class="o">.</span><span class="n">jit</span><span class="p">,</span> <span class="n">static_argnums</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,))</span>
+    <span class="k">def</span> <span class="nf">gamma</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">xi</span><span class="p">,</span> <span class="n">eta</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Christoffel function. Symmetric for two tangent vectors xi, eta.</span>
+<span class="sd">        The corresponding Levi-Civita connection is</span>
+<span class="sd">        :math:`\\nabla_{\\mathtt{X}}\\mathtt{Y} = \\mathrm{D}_{\\mathtt{X}}\\mathtt{Y} + \\Gamma(x; \\mathtt{X}, \\mathtt{Y})`</span>
+<span class="sd">        for two vector fields :math:`\\mathtt{X}, \\mathtt{Y}`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
+
+
+<div class="viewcode-block" id="GlobalManifold.retract">
+<a class="viewcode-back" href="../../../manifolds.html#jax_rb.manifolds.global_manifold.GlobalManifold.retract">[docs]</a>
+    <span class="k">def</span> <span class="nf">retract</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Second order retraction</span>
+
+<span class="sd">        :param x: a point on the manifold,</span>
+<span class="sd">        :param v: a tangent vector at x,</span>
+<span class="sd">        :returns: a point on the manifold.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># x1 = x + v - 0.5* self.proj(x, self.gamma(x, v, v))</span>
+        <span class="c1"># return jax.scipy.linalg.polar(x1)[0]</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
+
+
+<div class="viewcode-block" id="GlobalManifold.ito_drift">
+<a class="viewcode-back" href="../../../manifolds.html#jax_rb.manifolds.global_manifold.GlobalManifold.ito_drift">[docs]</a>
+    <span class="nd">@partial</span><span class="p">(</span><span class="n">jax</span><span class="o">.</span><span class="n">jit</span><span class="p">,</span> <span class="n">static_argnums</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,))</span>
+    <span class="k">def</span> <span class="nf">ito_drift</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Ito Brownian drift as an ambient vector.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
+
+
+    <span class="c1"># @partial(jax.jit, static_argnums=(0,))</span>
+<div class="viewcode-block" id="GlobalManifold.laplace_beltrami">
+<a class="viewcode-back" href="../../../manifolds.html#jax_rb.manifolds.global_manifold.GlobalManifold.laplace_beltrami">[docs]</a>
+    <span class="k">def</span> <span class="nf">laplace_beltrami</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">egradx</span><span class="p">,</span> <span class="n">ehessvp</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Laplace Beltrami operator. This works in for vector and matrices. For a specific manifold, this may be simplified. </span>
+<span class="sd">        We assume f is a scalar function in a tubular neighborhood of the manifold.</span>
+
+<span class="sd">        :param x: a point on the manifold,</span>
+<span class="sd">        :param egradx: is the Euclidean gradient of :math:`f` , a matrix of the same shape with x,</span>
+<span class="sd">        :param ehessvp: is the Euclidean Hessian Productof :math:`f` , a linear operator on :math:`\\mathcal{E}` ,</span>
+<span class="sd">        :returns: the value of the Laplace Beltrami operator of :math:`f` .</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">ret</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">ndim</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">prod</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">shape</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">ndim</span><span class="p">):</span>
+            <span class="n">e_i</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">ndim</span><span class="p">)</span><span class="o">.</span><span class="n">at</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="mf">1.</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+            <span class="n">ret</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">proj</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">inv_g_metric</span><span class="p">(</span>
+                <span class="n">x</span><span class="p">,</span> <span class="n">ehessvp</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">e_i</span><span class="p">)))</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)[</span><span class="n">i</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">ret</span> <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="n">jnp</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ito_drift</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">*</span><span class="n">egradx</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="GlobalManifold.pseudo_transport">
+<a class="viewcode-back" href="../../../manifolds.html#jax_rb.manifolds.global_manifold.GlobalManifold.pseudo_transport">[docs]</a>
+    <span class="k">def</span> <span class="nf">pseudo_transport</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; an approximate parallel transport from x to y</span>
+
+<span class="sd">        :param x: a point on the manifold,</span>
+<span class="sd">        :param y: a point on the manifold,</span>
+<span class="sd">        :param v: a tangent vector at x,</span>
+
+<span class="sd">        :returns: a tangent vector at y.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
+
+
+<div class="viewcode-block" id="GlobalManifold.sigma">
+<a class="viewcode-back" href="../../../manifolds.html#jax_rb.manifolds.global_manifold.GlobalManifold.sigma">[docs]</a>
+    <span class="k">def</span> <span class="nf">sigma</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">dw</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Sigma map to generate Brownian motion.</span>
+
+<span class="sd">        :param x: a point on the manifold,</span>
+<span class="sd">        :param dw: a point on the ambient space,</span>
+<span class="sd">        :return: apoint on the ambient space such that :math:`\\Pi(x) \\sigma(x)  \\sigma^{\\mathsf{T}}(x)\\mathsf{g}^{-1}(x) dw = \\Pi(x)dw`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
+</div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Du Nguyen, Stefan Sommer.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

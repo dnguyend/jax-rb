@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="Python" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>jax_rb.manifolds &mdash; jax_rb  documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=1e580bb1"></script>
+        <script src="_static/doctools.js?v=9a2dae69"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="jax_rb.simulation" href="simulation.html" />
+    <link rel="prev" title="JAX RB: Riemannian Brownian motion on manifolds" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            jax_rb
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Manifolds</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">jax_rb.manifolds</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#global-manifold">Global Manifold</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#jax_rb.manifolds.global_manifold.GlobalManifold"><code class="docutils literal notranslate"><span class="pre">GlobalManifold</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#jax_rb.manifolds.global_manifold.GlobalManifold.g_metric"><code class="docutils literal notranslate"><span class="pre">GlobalManifold.g_metric()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#jax_rb.manifolds.global_manifold.GlobalManifold.gamma"><code class="docutils literal notranslate"><span class="pre">GlobalManifold.gamma()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#jax_rb.manifolds.global_manifold.GlobalManifold.inner"><code class="docutils literal notranslate"><span class="pre">GlobalManifold.inner()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#jax_rb.manifolds.global_manifold.GlobalManifold.inv_g_metric"><code class="docutils literal notranslate"><span class="pre">GlobalManifold.inv_g_metric()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#jax_rb.manifolds.global_manifold.GlobalManifold.ito_drift"><code class="docutils literal notranslate"><span class="pre">GlobalManifold.ito_drift()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#jax_rb.manifolds.global_manifold.GlobalManifold.laplace_beltrami"><code class="docutils literal notranslate"><span class="pre">GlobalManifold.laplace_beltrami()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#jax_rb.manifolds.global_manifold.GlobalManifold.name"><code class="docutils literal notranslate"><span class="pre">GlobalManifold.name()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#jax_rb.manifolds.global_manifold.GlobalManifold.proj"><code class="docutils literal notranslate"><span class="pre">GlobalManifold.proj()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#jax_rb.manifolds.global_manifold.GlobalManifold.pseudo_transport"><code class="docutils literal notranslate"><span class="pre">GlobalManifold.pseudo_transport()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#jax_rb.manifolds.global_manifold.GlobalManifold.rand_ambient"><code class="docutils literal notranslate"><span class="pre">GlobalManifold.rand_ambient()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#jax_rb.manifolds.global_manifold.GlobalManifold.rand_point"><code class="docutils literal notranslate"><span class="pre">GlobalManifold.rand_point()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#jax_rb.manifolds.global_manifold.GlobalManifold.rand_vec"><code class="docutils literal notranslate"><span class="pre">GlobalManifold.rand_vec()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#jax_rb.manifolds.global_manifold.GlobalManifold.retract"><code class="docutils literal notranslate"><span class="pre">GlobalManifold.retract()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#jax_rb.manifolds.global_manifold.GlobalManifold.sigma"><code class="docutils literal notranslate"><span class="pre">GlobalManifold.sigma()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#sphere">Sphere</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#jax_rb.manifolds.sphere.Sphere"><code class="docutils literal notranslate"><span class="pre">Sphere</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#symmetric-positive-definite-matrix-manifold">Symmetric Positive Definite Matrix Manifold</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#jax_rb.manifolds.spd.PositiveDefiniteManifold"><code class="docutils literal notranslate"><span class="pre">PositiveDefiniteManifold</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#stiefel-manifold">Stiefel Manifold</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#jax_rb.manifolds.stiefel.RealStiefelAlpha"><code class="docutils literal notranslate"><span class="pre">RealStiefelAlpha</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#grassmann-manifold">Grassmann Manifold</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#jax_rb.manifolds.grassmann.Grassmann"><code class="docutils literal notranslate"><span class="pre">Grassmann</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#hypersurface-with-diagonal-constraints-manifold">Hypersurface with Diagonal constraints Manifold</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#jax_rb.manifolds.diag_hypersurface.DiagHypersurface"><code class="docutils literal notranslate"><span class="pre">DiagHypersurface</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#matrix-lie-group-left-invariant-metric">Matrix Lie Group Left Invariant Metric</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#required-implementations">Required implementations</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#jax_rb.manifolds.matrix_left_invariant.MatrixLeftInvariant._lie_algebra_proj"><code class="docutils literal notranslate"><span class="pre">_lie_algebra_proj()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#jax_rb.manifolds.matrix_left_invariant.MatrixLeftInvariant._mat_apply"><code class="docutils literal notranslate"><span class="pre">_mat_apply()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#base-class">Base class</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#jax_rb.manifolds.matrix_left_invariant.MatrixLeftInvariant"><code class="docutils literal notranslate"><span class="pre">MatrixLeftInvariant</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#mathrm-gl-n-generalized-linear-group-positive-determinant"><span class="math notranslate nohighlight">\(\mathrm{GL}^+(n)\)</span> Generalized Linear Group Positive Determinant</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#jax_rb.manifolds.glp_left_invariant.GLpLeftInvariant"><code class="docutils literal notranslate"><span class="pre">GLpLeftInvariant</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#mathrm-aff-n-affine-linear-group-positive-determinant"><span class="math notranslate nohighlight">\(\mathrm{Aff}^+(n)\)</span> Affine Linear Group Positive Determinant</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#jax_rb.manifolds.affine_left_invariant.AffineLeftInvariant"><code class="docutils literal notranslate"><span class="pre">AffineLeftInvariant</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#mathrm-sl-n-special-linear-group"><span class="math notranslate nohighlight">\(\mathrm{SL}(n)\)</span> Special Linear Group</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#jax_rb.manifolds.sl_left_invariant.SLLeftInvariant"><code class="docutils literal notranslate"><span class="pre">SLLeftInvariant</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#mathrm-so-n-special-orthogonal-group"><span class="math notranslate nohighlight">\(\mathrm{SO}(n)\)</span> Special Orthogonal Group</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#jax_rb.manifolds.so_left_invariant.SOLeftInvariant"><code class="docutils literal notranslate"><span class="pre">SOLeftInvariant</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#mathrm-se-n-special-euclidean-group"><span class="math notranslate nohighlight">\(\mathrm{SE}(n)\)</span> Special Euclidean Group</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#jax_rb.manifolds.se_left_invariant.SELeftInvariant"><code class="docutils literal notranslate"><span class="pre">SELeftInvariant</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Simulation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="simulation.html">jax_rb.simulation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Utils</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="utils.html">jax_rb.utils</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Other Resources:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="https://en.wikipedia.org/wiki/Stochastic_analysis_on_manifolds">Wikipedia</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/dnguyend/jax-rb">GitHub</a></li>
+<li class="toctree-l1"><a class="reference internal" href="animation.html">Animation</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">jax_rb</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">jax_rb.manifolds</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/manifolds.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-jax_rb.manifolds">
+<span id="jax-rb-manifolds"></span><h1>jax_rb.manifolds<a class="headerlink" href="#module-jax_rb.manifolds" title="Link to this heading"></a></h1>
+<section id="global-manifold">
+<h2>Global Manifold<a class="headerlink" href="#global-manifold" title="Link to this heading"></a></h2>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+</tbody>
+</table>
+<p id="module-jax_rb.manifolds.global_manifold">Base class for manifold in global embedded coordinates</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="jax_rb.manifolds.global_manifold.GlobalManifold">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">jax_rb.manifolds.global_manifold.</span></span><span class="sig-name descname"><span class="pre">GlobalManifold</span></span><a class="reference internal" href="_modules/jax_rb/manifolds/global_manifold.html#GlobalManifold"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#jax_rb.manifolds.global_manifold.GlobalManifold" title="Link to this definition"></a></dt>
+<dd><p>A manifold <span class="math notranslate nohighlight">\(\mathcal{M}\)</span> embedded in a vector space <span class="math notranslate nohighlight">\(\mathcal{E}\)</span> .</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="jax_rb.manifolds.global_manifold.GlobalManifold.g_metric">
+<span class="sig-name descname"><span class="pre">g_metric</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">omg</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/jax_rb/manifolds/global_manifold.html#GlobalManifold.g_metric"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#jax_rb.manifolds.global_manifold.GlobalManifold.g_metric" title="Link to this definition"></a></dt>
+<dd><p>the metric operator g, which is symmetric. The corresponding metric is
+<span class="math notranslate nohighlight">\(\langle \omega, g(x)\omega \rangle_{\mathcal{E}}\)</span> .</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="jax_rb.manifolds.global_manifold.GlobalManifold.gamma">
+<span class="sig-name descname"><span class="pre">gamma</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xi</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eta</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/jax_rb/manifolds/global_manifold.html#GlobalManifold.gamma"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#jax_rb.manifolds.global_manifold.GlobalManifold.gamma" title="Link to this definition"></a></dt>
+<dd><p>Christoffel function. Symmetric for two tangent vectors xi, eta.
+The corresponding Levi-Civita connection is
+<span class="math notranslate nohighlight">\(\nabla_{\mathtt{X}}\mathtt{Y} = \mathrm{D}_{\mathtt{X}}\mathtt{Y} + \Gamma(x; \mathtt{X}, \mathtt{Y})\)</span>
+for two vector fields <span class="math notranslate nohighlight">\(\mathtt{X}, \mathtt{Y}\)</span>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="jax_rb.manifolds.global_manifold.GlobalManifold.inner">
+<span class="sig-name descname"><span class="pre">inner</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/jax_rb/manifolds/global_manifold.html#GlobalManifold.inner"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#jax_rb.manifolds.global_manifold.GlobalManifold.inner" title="Link to this definition"></a></dt>
+<dd><p>Riemannian inner product.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>a</strong> -- a vector in ambient space,</p></li>
+<li><p><strong>b</strong> -- a vector in ambient space,</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>the inner product of a and b using the metric <span class="math notranslate nohighlight">\(\mathsf{g}\)</span> .</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="jax_rb.manifolds.global_manifold.GlobalManifold.inv_g_metric">
+<span class="sig-name descname"><span class="pre">inv_g_metric</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">omg</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/jax_rb/manifolds/global_manifold.html#GlobalManifold.inv_g_metric"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#jax_rb.manifolds.global_manifold.GlobalManifold.inv_g_metric" title="Link to this definition"></a></dt>
+<dd><p>inverse of the metric operator g.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="jax_rb.manifolds.global_manifold.GlobalManifold.ito_drift">
+<span class="sig-name descname"><span class="pre">ito_drift</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/jax_rb/manifolds/global_manifold.html#GlobalManifold.ito_drift"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#jax_rb.manifolds.global_manifold.GlobalManifold.ito_drift" title="Link to this definition"></a></dt>
+<dd><p>Ito Brownian drift as an ambient vector.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="jax_rb.manifolds.global_manifold.GlobalManifold.laplace_beltrami">
+<span class="sig-name descname"><span class="pre">laplace_beltrami</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">egradx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ehessvp</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/jax_rb/manifolds/global_manifold.html#GlobalManifold.laplace_beltrami"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#jax_rb.manifolds.global_manifold.GlobalManifold.laplace_beltrami" title="Link to this definition"></a></dt>
+<dd><p>Laplace Beltrami operator. This works in for vector and matrices. For a specific manifold, this may be simplified. 
+We assume f is a scalar function in a tubular neighborhood of the manifold.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> -- a point on the manifold,</p></li>
+<li><p><strong>egradx</strong> -- is the Euclidean gradient of <span class="math notranslate nohighlight">\(f\)</span> , a matrix of the same shape with x,</p></li>
+<li><p><strong>ehessvp</strong> -- is the Euclidean Hessian Productof <span class="math notranslate nohighlight">\(f\)</span> , a linear operator on <span class="math notranslate nohighlight">\(\mathcal{E}\)</span> ,</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>the value of the Laplace Beltrami operator of <span class="math notranslate nohighlight">\(f\)</span> .</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="jax_rb.manifolds.global_manifold.GlobalManifold.name">
+<span class="sig-name descname"><span class="pre">name</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/jax_rb/manifolds/global_manifold.html#GlobalManifold.name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#jax_rb.manifolds.global_manifold.GlobalManifold.name" title="Link to this definition"></a></dt>
+<dd><p>name of the manifold.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="jax_rb.manifolds.global_manifold.GlobalManifold.proj">
+<span class="sig-name descname"><span class="pre">proj</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">omg</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/jax_rb/manifolds/global_manifold.html#GlobalManifold.proj"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#jax_rb.manifolds.global_manifold.GlobalManifold.proj" title="Link to this definition"></a></dt>
+<dd><p>Metric compatible projection
+:param x: a point on the manifold,
+:param omg: a vector on the ambient manifold <span class="math notranslate nohighlight">\(\mathcal{E}\)</span> ,
+:returns: a point the tangent space at x.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="jax_rb.manifolds.global_manifold.GlobalManifold.pseudo_transport">
+<span class="sig-name descname"><span class="pre">pseudo_transport</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">v</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/jax_rb/manifolds/global_manifold.html#GlobalManifold.pseudo_transport"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#jax_rb.manifolds.global_manifold.GlobalManifold.pseudo_transport" title="Link to this definition"></a></dt>
+<dd><p>an approximate parallel transport from x to y</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> -- a point on the manifold,</p></li>
+<li><p><strong>y</strong> -- a point on the manifold,</p></li>
+<li><p><strong>v</strong> -- a tangent vector at x,</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>a tangent vector at y.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="jax_rb.manifolds.global_manifold.GlobalManifold.rand_ambient">
+<span class="sig-name descname"><span class="pre">rand_ambient</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/jax_rb/manifolds/global_manifold.html#GlobalManifold.rand_ambient"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#jax_rb.manifolds.global_manifold.GlobalManifold.rand_ambient" title="Link to this definition"></a></dt>
+<dd><p>Random ambient vector.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="jax_rb.manifolds.global_manifold.GlobalManifold.rand_point">
+<span class="sig-name descname"><span class="pre">rand_point</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/jax_rb/manifolds/global_manifold.html#GlobalManifold.rand_point"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#jax_rb.manifolds.global_manifold.GlobalManifold.rand_point" title="Link to this definition"></a></dt>
+<dd><p>A random point on the manifold.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="jax_rb.manifolds.global_manifold.GlobalManifold.rand_vec">
+<span class="sig-name descname"><span class="pre">rand_vec</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/jax_rb/manifolds/global_manifold.html#GlobalManifold.rand_vec"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#jax_rb.manifolds.global_manifold.GlobalManifold.rand_vec" title="Link to this definition"></a></dt>
+<dd><p>Random tangent vector at x.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="jax_rb.manifolds.global_manifold.GlobalManifold.retract">
+<span class="sig-name descname"><span class="pre">retract</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">v</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/jax_rb/manifolds/global_manifold.html#GlobalManifold.retract"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#jax_rb.manifolds.global_manifold.GlobalManifold.retract" title="Link to this definition"></a></dt>
+<dd><p>Second order retraction</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> -- a point on the manifold,</p></li>
+<li><p><strong>v</strong> -- a tangent vector at x,</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>a point on the manifold.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="jax_rb.manifolds.global_manifold.GlobalManifold.sigma">
+<span class="sig-name descname"><span class="pre">sigma</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dw</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/jax_rb/manifolds/global_manifold.html#GlobalManifold.sigma"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#jax_rb.manifolds.global_manifold.GlobalManifold.sigma" title="Link to this definition"></a></dt>
+<dd><p>Sigma map to generate Brownian motion.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> -- a point on the manifold,</p></li>
+<li><p><strong>dw</strong> -- a point on the ambient space,</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>apoint on the ambient space such that <span class="math notranslate nohighlight">\(\Pi(x) \sigma(x)  \sigma^{\mathsf{T}}(x)\mathsf{g}^{-1}(x) dw = \Pi(x)dw\)</span></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="sphere">
+<h2>Sphere<a class="headerlink" href="#sphere" title="Link to this heading"></a></h2>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+</tbody>
+</table>
+<p id="module-jax_rb.manifolds.sphere">Sphere of constant curvature</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="jax_rb.manifolds.sphere.Sphere">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">jax_rb.manifolds.sphere.</span></span><span class="sig-name descname"><span class="pre">Sphere</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">r</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/jax_rb/manifolds/sphere.html#Sphere"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#jax_rb.manifolds.sphere.Sphere" title="Link to this definition"></a></dt>
+<dd><p>The sphere <span class="math notranslate nohighlight">\(x_0^2+x_1^2+\cdots+x_d^2 = r^2\)</span>
+with sectional curvature <span class="math notranslate nohighlight">\(\frac{1}{r^2}\)</span>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>n</strong> -- dimension of <span class="math notranslate nohighlight">\(\mathcal{E}\)</span></p></li>
+<li><p><strong>r</strong> -- the radius.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="symmetric-positive-definite-matrix-manifold">
+<h2>Symmetric Positive Definite Matrix Manifold<a class="headerlink" href="#symmetric-positive-definite-matrix-manifold" title="Link to this heading"></a></h2>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+</tbody>
+</table>
+<p id="module-jax_rb.manifolds.spd">Symmetric Positive Definite Matrix Manifold <span class="math notranslate nohighlight">\(\mathrm{S}^+(p)\)</span> of positive definite matrices of shape <span class="math notranslate nohighlight">\(p\times p\)</span> .</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="jax_rb.manifolds.spd.PositiveDefiniteManifold">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">jax_rb.manifolds.spd.</span></span><span class="sig-name descname"><span class="pre">PositiveDefiniteManifold</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">p</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/jax_rb/manifolds/spd.html#PositiveDefiniteManifold"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#jax_rb.manifolds.spd.PositiveDefiniteManifold" title="Link to this definition"></a></dt>
+<dd><p>The manifold of positive definite matrices of size <span class="math notranslate nohighlight">\(p\)</span> .</p>
+</dd></dl>
+
+</section>
+<section id="stiefel-manifold">
+<h2>Stiefel Manifold<a class="headerlink" href="#stiefel-manifold" title="Link to this heading"></a></h2>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+</tbody>
+</table>
+<p id="module-jax_rb.manifolds.stiefel">Stiefel manifold <span class="math notranslate nohighlight">\(\mathrm{St}(n, p, \alpha_0, \alpha_1)\)</span> with metric defined by two parameters.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="jax_rb.manifolds.stiefel.RealStiefelAlpha">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">jax_rb.manifolds.stiefel.</span></span><span class="sig-name descname"><span class="pre">RealStiefelAlpha</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">shape</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/jax_rb/manifolds/stiefel.html#RealStiefelAlpha"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#jax_rb.manifolds.stiefel.RealStiefelAlpha" title="Link to this definition"></a></dt>
+<dd><p>The manifold <span class="math notranslate nohighlight">\(Y^TY = I\)</span> where <span class="math notranslate nohighlight">\(Y\)</span> is a matrix of size <span class="math notranslate nohighlight">\(shape=n\times p\)</span>    with metric <span class="math notranslate nohighlight">\(\lvert \omega\rvert^2_{\mathsf{g}} =\alpha_0 Tr(\omega^T\omega) +(\alpha_0-\alpha_1)Tr(\omega^TYY^T\omega)\)</span> .</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>shape</strong> -- tuple (n, p),</p></li>
+<li><p><strong>alpha</strong> -- array of 2 positive numbers.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="grassmann-manifold">
+<h2>Grassmann Manifold<a class="headerlink" href="#grassmann-manifold" title="Link to this heading"></a></h2>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+</tbody>
+</table>
+<p id="module-jax_rb.manifolds.grassmann">Grassmann manifold <span class="math notranslate nohighlight">\(\mathrm{Gr}(n, p)\)</span> of vector spaces of rank <span class="math notranslate nohighlight">\(p\)</span> in a <span class="math notranslate nohighlight">\(n\)</span> -dimension vector space.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="jax_rb.manifolds.grassmann.Grassmann">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">jax_rb.manifolds.grassmann.</span></span><span class="sig-name descname"><span class="pre">Grassmann</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">shape</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/jax_rb/manifolds/grassmann.html#Grassmann"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#jax_rb.manifolds.grassmann.Grassmann" title="Link to this definition"></a></dt>
+<dd><p>The lift of the Grassman manifold to to the Stiefel manifold <span class="math notranslate nohighlight">\(Y^TY = I\)</span> where <span class="math notranslate nohighlight">\(Y\)</span> is a matrix of <span class="math notranslate nohighlight">\(shape=n\times p\)</span> with metric <span class="math notranslate nohighlight">\(\lvert \omega\rvert^2_{\mathsf{g}} = Tr(\omega^T\omega)\)</span>. The lift is with respect to the submersion defined by the relationship <span class="math notranslate nohighlight">\(Y\sim YU\)</span> for an orthogonal matrix <span class="math notranslate nohighlight">\(U\)</span>.</p>
+</dd></dl>
+
+</section>
+<section id="hypersurface-with-diagonal-constraints-manifold">
+<h2>Hypersurface with Diagonal constraints Manifold<a class="headerlink" href="#hypersurface-with-diagonal-constraints-manifold" title="Link to this heading"></a></h2>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+</tbody>
+</table>
+<p id="module-jax_rb.manifolds.diag_hypersurface">Hypersurface with a constraint of the form <span class="math notranslate nohighlight">\(\sum_i d_i x_i^p = 1\)</span></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="jax_rb.manifolds.diag_hypersurface.DiagHypersurface">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">jax_rb.manifolds.diag_hypersurface.</span></span><span class="sig-name descname"><span class="pre">DiagHypersurface</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dvec</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/jax_rb/manifolds/diag_hypersurface.html#DiagHypersurface"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#jax_rb.manifolds.diag_hypersurface.DiagHypersurface" title="Link to this definition"></a></dt>
+<dd><p>Hypersurface of the form <span class="math notranslate nohighlight">\(\sum_i d_ix_i^p = 1\)</span>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dvec</strong> -- vector <span class="math notranslate nohighlight">\(d_i\)</span> of coefficients.
+Sort dvec so dvec[-1] is positive.</p></li>
+<li><p><strong>p</strong> -- <span class="math notranslate nohighlight">\(p &gt; 0\)</span> is an integer, degree of the constraint.</p></li>
+</ul>
+</dd>
+</dl>
+<p>Use embedded metric.</p>
+</dd></dl>
+
+</section>
+<section id="matrix-lie-group-left-invariant-metric">
+<h2>Matrix Lie Group Left Invariant Metric<a class="headerlink" href="#matrix-lie-group-left-invariant-metric" title="Link to this heading"></a></h2>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+</tbody>
+</table>
+<p id="module-jax_rb.manifolds.matrix_left_invariant">Base class for matrix groups with left invariant metrics.</p>
+<section id="required-implementations">
+<h3>Required implementations<a class="headerlink" href="#required-implementations" title="Link to this heading"></a></h3>
+<dl class="py function">
+<dt class="sig sig-object py" id="jax_rb.manifolds.matrix_left_invariant.MatrixLeftInvariant._lie_algebra_proj">
+<span class="sig-prename descclassname"><span class="pre">jax_rb.manifolds.matrix_left_invariant.MatrixLeftInvariant.</span></span><span class="sig-name descname"><span class="pre">_lie_algebra_proj</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">omg</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#jax_rb.manifolds.matrix_left_invariant.MatrixLeftInvariant._lie_algebra_proj" title="Link to this definition"></a></dt>
+<dd><p>The projection <span class="math notranslate nohighlight">\(p_{\mathfrak{g}}\)</span> at the identity.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="jax_rb.manifolds.matrix_left_invariant.MatrixLeftInvariant._mat_apply">
+<span class="sig-prename descclassname"><span class="pre">jax_rb.manifolds.matrix_left_invariant.MatrixLeftInvariant.</span></span><span class="sig-name descname"><span class="pre">_mat_apply</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mat</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">omg</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#jax_rb.manifolds.matrix_left_invariant.MatrixLeftInvariant._mat_apply" title="Link to this definition"></a></dt>
+<dd><p>Implementing the operator <span class="math notranslate nohighlight">\(\mathcal{I}\)</span> applied on omg in <span class="math notranslate nohighlight">\(\mathcal{E}\)</span>.</p>
+</dd></dl>
+
+</section>
+<section id="base-class">
+<h3>Base class<a class="headerlink" href="#base-class" title="Link to this heading"></a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="jax_rb.manifolds.matrix_left_invariant.MatrixLeftInvariant">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">jax_rb.manifolds.matrix_left_invariant.</span></span><span class="sig-name descname"><span class="pre">MatrixLeftInvariant</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">p</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">g_mat</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/jax_rb/manifolds/matrix_left_invariant.html#MatrixLeftInvariant"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#jax_rb.manifolds.matrix_left_invariant.MatrixLeftInvariant" title="Link to this definition"></a></dt>
+<dd><p>Matrix group with left invariant metric.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>p</strong> -- the size of the matrix</p></li>
+<li><p><strong>g_mat</strong> -- The matrix defining the inner product at the identity. Typically g_mat is of size <span class="math notranslate nohighlight">\(\dim \mathrm{G}\)</span> .</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="jax_rb.manifolds.matrix_left_invariant.MatrixLeftInvariant.approx_nearest">
+<span class="sig-name descname"><span class="pre">approx_nearest</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">q</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/jax_rb/manifolds/matrix_left_invariant.html#MatrixLeftInvariant.approx_nearest"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#jax_rb.manifolds.matrix_left_invariant.MatrixLeftInvariant.approx_nearest" title="Link to this definition"></a></dt>
+<dd><p>find point on the manifold that
+is nearest to q, same order as the nearest point.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="jax_rb.manifolds.matrix_left_invariant.MatrixLeftInvariant.g_metric">
+<span class="sig-name descname"><span class="pre">g_metric</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">omg</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/jax_rb/manifolds/matrix_left_invariant.html#MatrixLeftInvariant.g_metric"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#jax_rb.manifolds.matrix_left_invariant.MatrixLeftInvariant.g_metric" title="Link to this definition"></a></dt>
+<dd><p>the metric operator g, which is symmetric. The corresponding metric is
+<span class="math notranslate nohighlight">\(\langle \omega, g(x)\omega \rangle_{\mathcal{E}}\)</span> .</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="jax_rb.manifolds.matrix_left_invariant.MatrixLeftInvariant.gamma_ambient">
+<span class="sig-name descname"><span class="pre">gamma_ambient</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xi</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eta</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/jax_rb/manifolds/matrix_left_invariant.html#MatrixLeftInvariant.gamma_ambient"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#jax_rb.manifolds.matrix_left_invariant.MatrixLeftInvariant.gamma_ambient" title="Link to this definition"></a></dt>
+<dd><p>Christoffel function for ambient manifold.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="jax_rb.manifolds.matrix_left_invariant.MatrixLeftInvariant.id_drift">
+<span class="sig-name descname"><span class="pre">id_drift</span></span><a class="headerlink" href="#jax_rb.manifolds.matrix_left_invariant.MatrixLeftInvariant.id_drift" title="Link to this definition"></a></dt>
+<dd><p>Ito drift at the identity.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="jax_rb.manifolds.matrix_left_invariant.MatrixLeftInvariant.inner">
+<span class="sig-name descname"><span class="pre">inner</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/jax_rb/manifolds/matrix_left_invariant.html#MatrixLeftInvariant.inner"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#jax_rb.manifolds.matrix_left_invariant.MatrixLeftInvariant.inner" title="Link to this definition"></a></dt>
+<dd><p>Riemannian inner product.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>a</strong> -- a vector in ambient space,</p></li>
+<li><p><strong>b</strong> -- a vector in ambient space,</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>the inner product of a and b using the metric <span class="math notranslate nohighlight">\(\mathsf{g}\)</span> .</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="jax_rb.manifolds.matrix_left_invariant.MatrixLeftInvariant.inv_g_metric">
+<span class="sig-name descname"><span class="pre">inv_g_metric</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">omg</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/jax_rb/manifolds/matrix_left_invariant.html#MatrixLeftInvariant.inv_g_metric"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#jax_rb.manifolds.matrix_left_invariant.MatrixLeftInvariant.inv_g_metric" title="Link to this definition"></a></dt>
+<dd><p>inverse of the metric operator g.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="jax_rb.manifolds.matrix_left_invariant.MatrixLeftInvariant.laplace_beltrami">
+<span class="sig-name descname"><span class="pre">laplace_beltrami</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">egradx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ehessvp</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/jax_rb/manifolds/matrix_left_invariant.html#MatrixLeftInvariant.laplace_beltrami"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#jax_rb.manifolds.matrix_left_invariant.MatrixLeftInvariant.laplace_beltrami" title="Link to this definition"></a></dt>
+<dd><p>Laplace Beltrami operator. This works in for vector and matrices. For a specific manifold, this may be simplified. 
+We assume f is a scalar function in a tubular neighborhood of the manifold.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> -- a point on the manifold,</p></li>
+<li><p><strong>egradx</strong> -- is the Euclidean gradient of <span class="math notranslate nohighlight">\(f\)</span> , a matrix of the same shape with x,</p></li>
+<li><p><strong>ehessvp</strong> -- is the Euclidean Hessian Productof <span class="math notranslate nohighlight">\(f\)</span> , a linear operator on <span class="math notranslate nohighlight">\(\mathcal{E}\)</span> ,</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>the value of the Laplace Beltrami operator of <span class="math notranslate nohighlight">\(f\)</span> .</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="jax_rb.manifolds.matrix_left_invariant.MatrixLeftInvariant.left_invariant_vector_field">
+<span class="sig-name descname"><span class="pre">left_invariant_vector_field</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">v</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/jax_rb/manifolds/matrix_left_invariant.html#MatrixLeftInvariant.left_invariant_vector_field"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#jax_rb.manifolds.matrix_left_invariant.MatrixLeftInvariant.left_invariant_vector_field" title="Link to this definition"></a></dt>
+<dd><p>map from a unit vector in the trace metric
+to a vector field with unit length in the
+left invariant metric.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="jax_rb.manifolds.matrix_left_invariant.MatrixLeftInvariant.name">
+<span class="sig-name descname"><span class="pre">name</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/jax_rb/manifolds/matrix_left_invariant.html#MatrixLeftInvariant.name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#jax_rb.manifolds.matrix_left_invariant.MatrixLeftInvariant.name" title="Link to this definition"></a></dt>
+<dd><p>name of the manifold.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="jax_rb.manifolds.matrix_left_invariant.MatrixLeftInvariant.proj">
+<span class="sig-name descname"><span class="pre">proj</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">omg</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/jax_rb/manifolds/matrix_left_invariant.html#MatrixLeftInvariant.proj"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#jax_rb.manifolds.matrix_left_invariant.MatrixLeftInvariant.proj" title="Link to this definition"></a></dt>
+<dd><p>Metric compatible projection
+:param x: a point on the manifold,
+:param omg: a vector on the ambient manifold <span class="math notranslate nohighlight">\(\mathcal{E}\)</span> ,
+:returns: a point the tangent space at x.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="jax_rb.manifolds.matrix_left_invariant.MatrixLeftInvariant.pseudo_transport">
+<span class="sig-name descname"><span class="pre">pseudo_transport</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">v</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/jax_rb/manifolds/matrix_left_invariant.html#MatrixLeftInvariant.pseudo_transport"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#jax_rb.manifolds.matrix_left_invariant.MatrixLeftInvariant.pseudo_transport" title="Link to this definition"></a></dt>
+<dd><p>the easy one</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="jax_rb.manifolds.matrix_left_invariant.MatrixLeftInvariant.rand_ambient">
+<span class="sig-name descname"><span class="pre">rand_ambient</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/jax_rb/manifolds/matrix_left_invariant.html#MatrixLeftInvariant.rand_ambient"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#jax_rb.manifolds.matrix_left_invariant.MatrixLeftInvariant.rand_ambient" title="Link to this definition"></a></dt>
+<dd><p>Random ambient vector.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="jax_rb.manifolds.matrix_left_invariant.MatrixLeftInvariant.rand_point">
+<span class="sig-name descname"><span class="pre">rand_point</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/jax_rb/manifolds/matrix_left_invariant.html#MatrixLeftInvariant.rand_point"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#jax_rb.manifolds.matrix_left_invariant.MatrixLeftInvariant.rand_point" title="Link to this definition"></a></dt>
+<dd><p>A random point on the manifold.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="jax_rb.manifolds.matrix_left_invariant.MatrixLeftInvariant.rand_vec">
+<span class="sig-name descname"><span class="pre">rand_vec</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/jax_rb/manifolds/matrix_left_invariant.html#MatrixLeftInvariant.rand_vec"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#jax_rb.manifolds.matrix_left_invariant.MatrixLeftInvariant.rand_vec" title="Link to this definition"></a></dt>
+<dd><p>Random tangent vector at x.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="jax_rb.manifolds.matrix_left_invariant.MatrixLeftInvariant.retract">
+<span class="sig-name descname"><span class="pre">retract</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">v</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/jax_rb/manifolds/matrix_left_invariant.html#MatrixLeftInvariant.retract"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#jax_rb.manifolds.matrix_left_invariant.MatrixLeftInvariant.retract" title="Link to this definition"></a></dt>
+<dd><p>Second order retraction</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> -- a point on the manifold,</p></li>
+<li><p><strong>v</strong> -- a tangent vector at x,</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>a point on the manifold.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="jax_rb.manifolds.matrix_left_invariant.MatrixLeftInvariant.sigma">
+<span class="sig-name descname"><span class="pre">sigma</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dw</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/jax_rb/manifolds/matrix_left_invariant.html#MatrixLeftInvariant.sigma"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#jax_rb.manifolds.matrix_left_invariant.MatrixLeftInvariant.sigma" title="Link to this definition"></a></dt>
+<dd><p>sigma, to generate the Brownian motion.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="jax_rb.manifolds.matrix_left_invariant.MatrixLeftInvariant.sigma_id">
+<span class="sig-name descname"><span class="pre">sigma_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dw</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/jax_rb/manifolds/matrix_left_invariant.html#MatrixLeftInvariant.sigma_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#jax_rb.manifolds.matrix_left_invariant.MatrixLeftInvariant.sigma_id" title="Link to this definition"></a></dt>
+<dd><p>sigma, to generate the Brownian motion at the identity.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="jax_rb.manifolds.matrix_left_invariant.MatrixLeftInvariant.stratonovich_drift">
+<span class="sig-name descname"><span class="pre">stratonovich_drift</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/jax_rb/manifolds/matrix_left_invariant.html#MatrixLeftInvariant.stratonovich_drift"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#jax_rb.manifolds.matrix_left_invariant.MatrixLeftInvariant.stratonovich_drift" title="Link to this definition"></a></dt>
+<dd><p>Stratonovich drift.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="jax_rb.manifolds.matrix_left_invariant.MatrixLeftInvariant.v0">
+<span class="sig-name descname"><span class="pre">v0</span></span><a class="headerlink" href="#jax_rb.manifolds.matrix_left_invariant.MatrixLeftInvariant.v0" title="Link to this definition"></a></dt>
+<dd><p>Stratonovich drift at the identity.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+<section id="mathrm-gl-n-generalized-linear-group-positive-determinant">
+<h2><span class="math notranslate nohighlight">\(\mathrm{GL}^+(n)\)</span> Generalized Linear Group Positive Determinant<a class="headerlink" href="#mathrm-gl-n-generalized-linear-group-positive-determinant" title="Link to this heading"></a></h2>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+</tbody>
+</table>
+<p id="module-jax_rb.manifolds.glp_left_invariant"><span class="math notranslate nohighlight">\(GL^+\)</span>: Positive Component of the Generalized Linear group with left-invariant metric.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="jax_rb.manifolds.glp_left_invariant.GLpLeftInvariant">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">jax_rb.manifolds.glp_left_invariant.</span></span><span class="sig-name descname"><span class="pre">GLpLeftInvariant</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">p</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">g_mat</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/jax_rb/manifolds/glp_left_invariant.html#GLpLeftInvariant"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#jax_rb.manifolds.glp_left_invariant.GLpLeftInvariant" title="Link to this definition"></a></dt>
+<dd><p><span class="math notranslate nohighlight">\(GL^+\)</span> with left invariant metric defined by g_mat.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>p</strong> -- the size of the matrix</p></li>
+<li><p><strong>g_mat</strong> -- The matrix defining the inner product at the identity. g_mat is in <span class="math notranslate nohighlight">\(\mathbb{R}^{p^2\times p^2}\)</span> .</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="mathrm-aff-n-affine-linear-group-positive-determinant">
+<h2><span class="math notranslate nohighlight">\(\mathrm{Aff}^+(n)\)</span> Affine Linear Group Positive Determinant<a class="headerlink" href="#mathrm-aff-n-affine-linear-group-positive-determinant" title="Link to this heading"></a></h2>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+</tbody>
+</table>
+<p id="module-jax_rb.manifolds.affine_left_invariant"><span class="math notranslate nohighlight">\(Aff^+\)</span>: Positive Component of the Affine group with left invariant metric.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="jax_rb.manifolds.affine_left_invariant.AffineLeftInvariant">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">jax_rb.manifolds.affine_left_invariant.</span></span><span class="sig-name descname"><span class="pre">AffineLeftInvariant</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">g_mat</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/jax_rb/manifolds/affine_left_invariant.html#AffineLeftInvariant"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#jax_rb.manifolds.affine_left_invariant.AffineLeftInvariant" title="Link to this definition"></a></dt>
+<dd><p>Group of affine tranformations of <span class="math notranslate nohighlight">\(\mathbb{R}^{n}\)</span>,
+represented by a pair <span class="math notranslate nohighlight">\((A, v)\in GL^+(n)\times \mathbb{R}^{n}\)</span>
+with action <span class="math notranslate nohighlight">\((A, v).w = Aw + v\)</span> for <span class="math notranslate nohighlight">\(w\in\mathbb{R}^{n}\)</span> .</p>
+<p>Alternatively, it is represented as a matrix <span class="math notranslate nohighlight">\(\begin{bmatrix} A &amp; v \\ 0 &amp; 1 \end{bmatrix}\in  GL(n+1)\)</span>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>n</strong> -- size of A</p></li>
+<li><p><strong>g_mat</strong> -- a positive definite matrix in <span class="math notranslate nohighlight">\(\mathbb{R}^{n(n+1)\times n(n+1)}\)</span> defining the metric at <span class="math notranslate nohighlight">\(I_{n+1}\)</span></p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="mathrm-sl-n-special-linear-group">
+<h2><span class="math notranslate nohighlight">\(\mathrm{SL}(n)\)</span> Special Linear Group<a class="headerlink" href="#mathrm-sl-n-special-linear-group" title="Link to this heading"></a></h2>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+</tbody>
+</table>
+<p id="module-jax_rb.manifolds.sl_left_invariant"><span class="math notranslate nohighlight">\(SL\)</span>: special linear group of matrices of determinant 1.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="jax_rb.manifolds.sl_left_invariant.SLLeftInvariant">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">jax_rb.manifolds.sl_left_invariant.</span></span><span class="sig-name descname"><span class="pre">SLLeftInvariant</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">g_mat</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/jax_rb/manifolds/sl_left_invariant.html#SLLeftInvariant"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#jax_rb.manifolds.sl_left_invariant.SLLeftInvariant" title="Link to this definition"></a></dt>
+<dd><p><span class="math notranslate nohighlight">\(SL(n)\)</span> Special linear group, of size <span class="math notranslate nohighlight">\(n\)</span> with left invariant metric
+defined by g_mat.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>n</strong> -- size of the matrix</p></li>
+<li><p><strong>g_mat</strong> -- a positive definite matrix in <span class="math notranslate nohighlight">\(\mathbb{R}^{(n^2-1)\times (n^2-1)}\)</span> defining the metric at <span class="math notranslate nohighlight">\(I_{n}\)</span></p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="mathrm-so-n-special-orthogonal-group">
+<h2><span class="math notranslate nohighlight">\(\mathrm{SO}(n)\)</span> Special Orthogonal Group<a class="headerlink" href="#mathrm-so-n-special-orthogonal-group" title="Link to this heading"></a></h2>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+</tbody>
+</table>
+<p id="module-jax_rb.manifolds.so_left_invariant"><span class="math notranslate nohighlight">\(SO\)</span>: Special Orthogonal group.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="jax_rb.manifolds.so_left_invariant.SOLeftInvariant">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">jax_rb.manifolds.so_left_invariant.</span></span><span class="sig-name descname"><span class="pre">SOLeftInvariant</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">g_mat</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/jax_rb/manifolds/so_left_invariant.html#SOLeftInvariant"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#jax_rb.manifolds.so_left_invariant.SOLeftInvariant" title="Link to this definition"></a></dt>
+<dd><p>The group <span class="math notranslate nohighlight">\(SO(n)\)</span> of orthogonal matrices <span class="math notranslate nohighlight">\(U\in R^{n\times n}\)</span>
+of determinant 1 with metric <span class="math notranslate nohighlight">\(Tr(\omega^TU^T\mathcal{I}(U^T\omega))\)</span>
+where <span class="math notranslate nohighlight">\(\mathcal{I}\)</span> is the metric defined by g_mat, a matrix of size
+<span class="math notranslate nohighlight">\(\mathbb{R}^{\frac{n(n-1)}{2}\times \frac{n(n-1)}{2}}\)</span>.</p>
+</dd></dl>
+
+</section>
+<section id="mathrm-se-n-special-euclidean-group">
+<h2><span class="math notranslate nohighlight">\(\mathrm{SE}(n)\)</span> Special Euclidean Group<a class="headerlink" href="#mathrm-se-n-special-euclidean-group" title="Link to this heading"></a></h2>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+</tbody>
+</table>
+<p id="module-jax_rb.manifolds.se_left_invariant"><span class="math notranslate nohighlight">\(SE\)</span>: Special Euclidean group.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="jax_rb.manifolds.se_left_invariant.SELeftInvariant">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">jax_rb.manifolds.se_left_invariant.</span></span><span class="sig-name descname"><span class="pre">SELeftInvariant</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">g_mat</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/jax_rb/manifolds/se_left_invariant.html#SELeftInvariant"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#jax_rb.manifolds.se_left_invariant.SELeftInvariant" title="Link to this definition"></a></dt>
+<dd><p>Specian Euclidean group of Euclidean transformation of <span class="math notranslate nohighlight">\(\mathbb{R}^{n}\)</span>,
+represented by a pair <span class="math notranslate nohighlight">\((A, v)\in SO^(n)\times \mathbb{R}^{n}\)</span>
+with action <span class="math notranslate nohighlight">\((A, v).w = Aw + v\)</span> for <span class="math notranslate nohighlight">\(w\in\mathbb{R}^{n}\)</span> .</p>
+<p>Alternatively, it is represented as a matrix <span class="math notranslate nohighlight">\(\begin{bmatrix} A &amp; v \\ 0 &amp; 1 \end{bmatrix}\in  GL(n+1)\)</span> where <span class="math notranslate nohighlight">\(A\in SO(n)\)</span>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>n</strong> -- size of A</p></li>
+<li><p><strong>g_mat</strong> -- a positive definite matrix in <span class="math notranslate nohighlight">\(\mathbb{R}^{\frac{n(n+1)}{2}\times\frac{n(n+1)}{2}}\)</span> defining the metric at <span class="math notranslate nohighlight">\(I_{n+1}\)</span></p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="JAX RB: Riemannian Brownian motion on manifolds" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="simulation.html" class="btn btn-neutral float-right" title="jax_rb.simulation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Du Nguyen, Stefan Sommer.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
