@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="Python" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>jax_rb.utils.utils &mdash; jax_rb  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../_static/documentation_options.js?v=1e580bb1"></script>
+        <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            jax_rb
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Manifolds</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../manifolds.html">jax_rb.manifolds</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Simulation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../simulation.html">jax_rb.simulation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Utils</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../utils.html">jax_rb.utils</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Other Resources:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="https://en.wikipedia.org/wiki/Stochastic_analysis_on_manifolds">Wikipedia</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/dnguyend/jax-rb">GitHub</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../animation.html">Animation</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">jax_rb</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">jax_rb.utils.utils</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for jax_rb.utils.utils</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;various utils for the project</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">jax.numpy</span> <span class="k">as</span> <span class="nn">jnp</span>
+<span class="kn">import</span> <span class="nn">jax.numpy.linalg</span> <span class="k">as</span> <span class="nn">jla</span>
+<span class="kn">from</span> <span class="nn">jax</span> <span class="kn">import</span> <span class="n">random</span><span class="p">,</span> <span class="n">jit</span>
+
+
+<span class="k">def</span> <span class="nf">pos</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; max(x, 0), jit friendly</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="mf">0.5</span><span class="o">*</span><span class="p">(</span><span class="n">x</span><span class="o">+</span><span class="n">jnp</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+
+
+<span class="k">def</span> <span class="nf">asym</span><span class="p">(</span><span class="n">mat</span><span class="p">):</span>
+    <span class="k">return</span> <span class="mf">0.5</span><span class="o">*</span><span class="p">(</span><span class="n">mat</span> <span class="o">-</span> <span class="n">mat</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">sym2</span><span class="p">(</span><span class="n">mat</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">mat</span> <span class="o">+</span> <span class="n">mat</span><span class="o">.</span><span class="n">T</span>
+
+
+<span class="k">def</span> <span class="nf">sym</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
+    <span class="k">return</span> <span class="mf">0.5</span><span class="o">*</span><span class="n">sym2</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="grand">
+<a class="viewcode-back" href="../../../utils.html#jax_rb.utils.utils.grand">[docs]</a>
+<span class="k">def</span> <span class="nf">grand</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">dims</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; generate a random array of shape dim using key</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">key</span><span class="p">,</span> <span class="n">sk</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">sk</span><span class="p">,</span> <span class="n">dims</span><span class="p">),</span> <span class="n">key</span></div>
+
+
+
+<span class="k">def</span> <span class="nf">lyapunov</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;solve aU + Ua = b</span>
+<span class="sd">    A, B, U are symmetric</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">yei</span><span class="p">,</span> <span class="n">yv</span> <span class="o">=</span> <span class="n">jla</span><span class="o">.</span><span class="n">eigh</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">yv</span><span class="o">@</span><span class="p">((</span><span class="n">yv</span><span class="o">.</span><span class="n">T</span><span class="nd">@b@yv</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">yei</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">+</span> <span class="n">yei</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="p">:]))</span><span class="nd">@yv</span><span class="o">.</span><span class="n">T</span>
+
+
+<span class="k">def</span> <span class="nf">vcat</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;vertical concatenate</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">jnp</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">sinc</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; better sinc than</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">jnp</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mf">1e-20</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mi">1</span>
+    <span class="k">return</span> <span class="n">jnp</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">/</span><span class="n">x</span>
+
+
+<span class="k">def</span> <span class="nf">sinc1</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;sinc1 is dsinc/x</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">jnp</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">1e-6</span><span class="p">:</span>
+        <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="o">/</span><span class="mi">3</span> <span class="o">+</span> <span class="n">x</span><span class="o">*</span><span class="n">x</span><span class="o">/</span><span class="mi">2</span><span class="o">/</span><span class="mi">3</span><span class="o">/</span><span class="mi">5</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">x</span><span class="o">*</span><span class="n">jnp</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">-</span><span class="n">jnp</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">x</span><span class="p">))</span><span class="o">/</span><span class="n">x</span><span class="o">/</span><span class="n">x</span><span class="o">/</span><span class="n">x</span>
+
+
+<span class="k">def</span> <span class="nf">sinc2</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; helper  function, derivative of sinc1 = x*sinc2(x)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">jnp</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">1e-3</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mi">1</span><span class="o">/</span><span class="mi">15</span> <span class="o">-</span> <span class="n">x</span><span class="o">*</span><span class="n">x</span><span class="o">/</span><span class="mi">210</span> <span class="o">+</span> <span class="n">x</span><span class="o">*</span><span class="n">x</span><span class="o">*</span><span class="n">x</span><span class="o">*</span><span class="n">x</span> <span class="o">/</span> <span class="mi">7560</span>
+    <span class="k">return</span> <span class="o">-</span><span class="p">((</span><span class="n">x</span><span class="o">*</span><span class="n">x</span><span class="o">-</span><span class="mi">3</span><span class="p">)</span><span class="o">*</span><span class="n">jnp</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="mi">3</span><span class="o">*</span><span class="n">x</span><span class="o">*</span><span class="n">jnp</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">x</span><span class="p">))</span><span class="o">/</span><span class="n">x</span><span class="o">**</span><span class="mi">5</span>
+
+
+<span class="k">def</span> <span class="nf">dsinc</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Derivative of sinc</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">jnp</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">1e-6</span><span class="p">:</span>
+        <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="o">/</span><span class="mi">3</span><span class="o">*</span><span class="n">x</span> <span class="o">+</span> <span class="n">x</span><span class="o">*</span><span class="n">x</span><span class="o">*</span><span class="n">x</span><span class="o">/</span><span class="mi">30</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">x</span><span class="o">*</span><span class="n">jnp</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">-</span><span class="n">jnp</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">x</span><span class="p">))</span><span class="o">/</span><span class="n">x</span><span class="o">/</span><span class="n">x</span>
+
+
+<span class="k">def</span> <span class="nf">dsinc1</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;sinc1 is dsinc/x</span>
+<span class="sd">    dsinc1 is its derivative</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">x</span><span class="o">*</span><span class="n">sinc2</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+<div class="viewcode-block" id="complement_basis_for_vector">
+<a class="viewcode-back" href="../../../utils.html#jax_rb.utils.utils.complement_basis_for_vector">[docs]</a>
+<span class="k">def</span> <span class="nf">complement_basis_for_vector</span><span class="p">(</span><span class="n">xraw</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; complement basis of xraw, a non zero vector. Assume  x[0] !=0</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">xraw</span><span class="o">/</span><span class="n">jnp</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">xraw</span><span class="o">*</span><span class="n">xraw</span><span class="p">))</span>
+    <span class="n">q</span> <span class="o">=</span> <span class="mf">2.</span><span class="o">*</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">/</span><span class="n">q</span>
+
+    <span class="k">return</span> <span class="n">jnp</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span>
+        <span class="p">[</span><span class="o">-</span><span class="n">q</span><span class="o">*</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">),</span>
+         <span class="n">jnp</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">p</span><span class="p">)</span><span class="o">*</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">:][:,</span> <span class="kc">None</span><span class="p">]</span><span class="nd">@x</span><span class="p">[</span><span class="mi">1</span><span class="p">:][</span><span class="kc">None</span><span class="p">,</span> <span class="p">:]])</span></div>
+
+
+
+<div class="viewcode-block" id="esqrtm">
+<a class="viewcode-back" href="../../../utils.html#jax_rb.utils.utils.esqrtm">[docs]</a>
+<span class="k">def</span> <span class="nf">esqrtm</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; sqrtm by eigenvalue</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">ei</span><span class="p">,</span> <span class="n">ev</span> <span class="o">=</span> <span class="n">jla</span><span class="o">.</span><span class="n">eigh</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">ev</span><span class="o">@</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">ei</span><span class="p">)[:,</span> <span class="kc">None</span><span class="p">]</span><span class="o">*</span><span class="n">ev</span><span class="o">.</span><span class="n">T</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="make_complement_basis">
+<a class="viewcode-back" href="../../../utils.html#jax_rb.utils.utils.make_complement_basis">[docs]</a>
+<span class="k">def</span> <span class="nf">make_complement_basis</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; make complement basis of     </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">n</span><span class="p">,</span> <span class="n">p</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span>
+    <span class="n">P</span> <span class="o">=</span> <span class="n">esqrtm</span><span class="p">(</span><span class="n">x</span><span class="p">[:</span><span class="n">p</span><span class="p">,</span> <span class="p">:]</span><span class="o">.</span><span class="n">T</span><span class="nd">@x</span><span class="p">[:</span><span class="n">p</span><span class="p">,</span> <span class="p">:])</span>
+    <span class="n">Q</span> <span class="o">=</span> <span class="n">jla</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">P</span><span class="p">,</span> <span class="n">x</span><span class="p">[:</span><span class="n">p</span><span class="p">,</span> <span class="p">:]</span><span class="o">.</span><span class="n">T</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
+    <span class="k">return</span> <span class="n">jnp</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="o">-</span> <span class="n">Q</span><span class="nd">@x</span><span class="p">[</span><span class="n">p</span><span class="p">:,</span> <span class="p">:]</span><span class="o">.</span><span class="n">T</span><span class="p">,</span>
+                            <span class="n">jnp</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="n">p</span><span class="p">)</span> <span class="o">-</span> <span class="n">x</span><span class="p">[</span><span class="n">p</span><span class="p">:,</span> <span class="p">:]</span><span class="nd">@jla</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">P</span> <span class="o">+</span> <span class="n">jnp</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">p</span><span class="p">),</span> <span class="n">x</span><span class="p">[</span><span class="n">p</span><span class="p">:,</span> <span class="p">:]</span><span class="o">.</span><span class="n">T</span><span class="p">)],</span>
+                           <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="generate_symmetric_tensor">
+<a class="viewcode-back" href="../../../utils.html#jax_rb.utils.utils.generate_symmetric_tensor">[docs]</a>
+<span class="k">def</span> <span class="nf">generate_symmetric_tensor</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">m</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Generating symmetric tensor size k,m</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">mat</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="nb">tuple</span><span class="p">(</span><span class="n">m</span><span class="o">*</span><span class="p">[</span><span class="n">k</span><span class="p">]),</span> <span class="n">jnp</span><span class="o">.</span><span class="n">nan</span><span class="p">)</span>
+    <span class="n">current_idx</span> <span class="o">=</span> <span class="n">m</span><span class="o">*</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">active_i</span> <span class="o">=</span> <span class="n">m</span> <span class="o">-</span> <span class="mi">1</span>
+    <span class="n">tval</span><span class="p">,</span> <span class="n">key</span> <span class="o">=</span> <span class="n">grand</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,))</span>
+    <span class="n">mat</span> <span class="o">=</span> <span class="n">mat</span><span class="o">.</span><span class="n">at</span><span class="p">[</span><span class="nb">tuple</span><span class="p">(</span><span class="n">current_idx</span><span class="p">)]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">tval</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">current_idx</span><span class="p">[</span><span class="n">active_i</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">k</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">current_idx</span><span class="p">[</span><span class="n">active_i</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">if</span> <span class="n">jnp</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">mat</span><span class="p">[</span><span class="nb">tuple</span><span class="p">(</span><span class="n">current_idx</span><span class="p">)]):</span>
+                <span class="n">i_s</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">current_idx</span><span class="p">))</span>
+                <span class="k">if</span> <span class="n">jnp</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">mat</span><span class="p">[</span><span class="n">i_s</span><span class="p">]):</span>
+                    <span class="n">tval</span><span class="p">,</span> <span class="n">key</span> <span class="o">=</span> <span class="n">grand</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,))</span>
+                    <span class="n">mat</span> <span class="o">=</span> <span class="n">mat</span><span class="o">.</span><span class="n">at</span><span class="p">[</span><span class="n">i_s</span><span class="p">]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">tval</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+                    <span class="c1"># print(&#39;Doing %s&#39; % str(i_s))</span>
+                <span class="n">mat</span> <span class="o">=</span> <span class="n">mat</span><span class="o">.</span><span class="n">at</span><span class="p">[</span><span class="nb">tuple</span><span class="p">(</span><span class="n">current_idx</span><span class="p">)]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">mat</span><span class="p">[</span><span class="n">i_s</span><span class="p">])</span>
+                <span class="c1"># print(&#39;Doing %s&#39; % str(current_idx))</span>
+        <span class="k">elif</span> <span class="n">active_i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">break</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">next_pos</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">current_idx</span><span class="p">)[:</span><span class="n">active_i</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">k</span><span class="o">-</span><span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">next_pos</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">break</span>
+            <span class="n">current_idx</span><span class="p">[</span><span class="n">next_pos</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]]</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">for</span> <span class="n">jx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">next_pos</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">m</span><span class="p">):</span>
+                <span class="n">current_idx</span><span class="p">[</span><span class="n">jx</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+
+            <span class="n">active_i</span> <span class="o">=</span> <span class="n">m</span> <span class="o">-</span> <span class="mi">1</span>
+            <span class="k">if</span> <span class="n">jnp</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">mat</span><span class="p">[</span><span class="nb">tuple</span><span class="p">(</span><span class="n">current_idx</span><span class="p">)]):</span>
+                <span class="n">i_s</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">current_idx</span><span class="p">))</span>
+                <span class="k">if</span> <span class="n">jnp</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">mat</span><span class="p">[</span><span class="n">i_s</span><span class="p">]):</span>
+                    <span class="n">tval</span><span class="p">,</span> <span class="n">key</span> <span class="o">=</span> <span class="n">grand</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,))</span>
+                    <span class="n">mat</span> <span class="o">=</span> <span class="n">mat</span><span class="o">.</span><span class="n">at</span><span class="p">[</span><span class="n">i_s</span><span class="p">]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">tval</span><span class="p">)</span>
+                    <span class="c1"># print(&#39;Doing %s&#39; % str(i_s))</span>
+                <span class="n">mat</span> <span class="o">=</span> <span class="n">mat</span><span class="o">.</span><span class="n">at</span><span class="p">[</span><span class="nb">tuple</span><span class="p">(</span><span class="n">current_idx</span><span class="p">)]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">mat</span><span class="p">[</span><span class="n">i_s</span><span class="p">])</span>
+                <span class="c1"># print(&#39;Doing %s&#39; % str(current_idx))</span>
+    <span class="k">return</span> <span class="n">mat</span><span class="p">,</span> <span class="n">key</span></div>
+
+
+
+<span class="k">def</span> <span class="nf">_fill_symmetric</span><span class="p">(</span><span class="n">p_raw</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Fill a k by k matrix with p_raw symmetrically</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">k</span><span class="p">,</span> <span class="n">k</span><span class="p">))</span>
+    <span class="n">start</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">k</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">at</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">:]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">p_raw</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">start</span><span class="o">+</span><span class="n">k</span><span class="o">-</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">at</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">:,</span> <span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">p_raw</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">start</span><span class="o">+</span><span class="n">k</span><span class="o">-</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+        <span class="n">start</span> <span class="o">+=</span> <span class="n">k</span><span class="o">-</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span>
+    <span class="k">return</span> <span class="n">jnp</span><span class="o">.</span><span class="n">fill_diagonal</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">p_raw</span><span class="p">[</span><span class="o">-</span><span class="n">k</span><span class="p">:],</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">tv_mode_product</span><span class="p">(</span><span class="n">tensor</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">modes</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Evaluating tensor subsituting x for the last modes times indices</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">v</span> <span class="o">=</span> <span class="n">tensor</span>
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">modes</span><span class="p">):</span>
+        <span class="n">v</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">tensordot</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">axes</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">v</span>
+
+
+<span class="k">def</span> <span class="nf">_gen_so_inertia_matrix</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; generate an n times n symmetric matrix</span>
+<span class="sd">    with diagonal 1</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">i_mat</span><span class="p">,</span> <span class="n">key</span> <span class="o">=</span> <span class="n">grand</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="p">(</span><span class="n">n</span> <span class="p">,</span> <span class="n">n</span><span class="p">))</span>
+    <span class="n">i_mat</span> <span class="o">=</span> <span class="n">sym</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">i_mat</span><span class="p">))</span>
+    <span class="n">i_mat</span> <span class="o">=</span> <span class="n">i_mat</span><span class="o">.</span><span class="n">at</span><span class="p">[</span><span class="n">jnp</span><span class="o">.</span><span class="n">diag_indices</span><span class="p">(</span><span class="n">n</span><span class="p">)]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="mf">1.</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">i_mat</span><span class="p">,</span> <span class="n">key</span>
+
+
+<span class="k">def</span> <span class="nf">_old_rand_positive_definite</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; generate a positive definite matrix of size n</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># n2 = (n*(n-1)) // 2</span>
+    <span class="n">mat</span><span class="p">,</span> <span class="n">key</span> <span class="o">=</span> <span class="n">grand</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">n</span><span class="p">))</span>
+    <span class="n">mat</span> <span class="o">=</span> <span class="n">mat</span><span class="nd">@mat</span><span class="o">.</span><span class="n">T</span>
+    <span class="k">return</span> <span class="n">sym</span><span class="p">(</span><span class="n">mat</span><span class="p">),</span> <span class="n">key</span>
+
+
+<div class="viewcode-block" id="rand_positive_definite">
+<a class="viewcode-back" href="../../../utils.html#jax_rb.utils.utils.rand_positive_definite">[docs]</a>
+<span class="k">def</span> <span class="nf">rand_positive_definite</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">bounds</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; generate a positive definite matrix of size n</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># n2 = (n*(n-1)) // 2</span>
+    <span class="n">mat</span><span class="p">,</span> <span class="n">key</span> <span class="o">=</span> <span class="n">grand</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">n</span><span class="p">))</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">bounds</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">sym</span><span class="p">(</span><span class="n">mat</span><span class="nd">@mat</span><span class="o">.</span><span class="n">T</span><span class="p">),</span> <span class="n">key</span>
+    <span class="n">mat</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">jla</span><span class="o">.</span><span class="n">qr</span><span class="p">(</span><span class="n">mat</span><span class="p">)</span>
+    <span class="n">key</span><span class="p">,</span> <span class="n">sk</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+    <span class="n">ei</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="n">sk</span><span class="p">,</span> <span class="p">(</span><span class="n">n</span><span class="p">,),</span> <span class="n">minval</span> <span class="o">=</span><span class="n">bounds</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">maxval</span><span class="o">=</span><span class="n">bounds</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">mat</span> <span class="o">=</span> <span class="n">mat</span><span class="o">@</span><span class="p">(</span><span class="n">ei</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]</span><span class="o">*</span><span class="n">mat</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">sym</span><span class="p">(</span><span class="n">mat</span><span class="p">),</span> <span class="n">key</span></div>
+
+
+
+<span class="k">def</span> <span class="nf">_so_metric_opt</span><span class="p">(</span><span class="n">lu_mat</span><span class="p">,</span> <span class="n">a</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; bilinear form given by lu_mat operates on a.</span>
+<span class="sd">    lu_mat is a (n(n-1)/2)*(n(n-1)/2) matrix, operates on vectorization</span>
+<span class="sd">    of the upper and lower triangular matrices so the overall operation is</span>
+<span class="sd">    self-adjoint.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">rows</span><span class="p">,</span> <span class="n">cols</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">triu_indices</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="n">ret</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="n">p</span><span class="p">,</span> <span class="n">p</span><span class="p">))</span>
+    <span class="n">ret</span> <span class="o">=</span> <span class="n">ret</span><span class="o">.</span><span class="n">at</span><span class="p">[</span><span class="n">rows</span><span class="p">,</span> <span class="n">cols</span><span class="p">]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">lu_mat</span><span class="nd">@a</span><span class="o">.</span><span class="n">take</span><span class="p">(</span><span class="n">rows</span><span class="o">*</span><span class="n">p</span><span class="o">+</span><span class="n">cols</span><span class="p">))</span>
+    <span class="n">ret</span> <span class="o">=</span> <span class="n">ret</span><span class="o">.</span><span class="n">at</span><span class="p">[</span><span class="n">cols</span><span class="p">,</span> <span class="n">rows</span><span class="p">]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">lu_mat</span><span class="nd">@a</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">take</span><span class="p">(</span><span class="n">rows</span><span class="o">*</span><span class="n">p</span><span class="o">+</span><span class="n">cols</span><span class="p">))</span>
+    <span class="n">ret</span> <span class="o">=</span> <span class="n">ret</span><span class="o">.</span><span class="n">at</span><span class="p">[</span><span class="n">jnp</span><span class="o">.</span><span class="n">diag_indices</span><span class="p">(</span><span class="n">p</span><span class="p">)]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="n">jnp</span><span class="o">.</span><span class="n">diag_indices</span><span class="p">(</span><span class="n">p</span><span class="p">)])</span>
+
+    <span class="k">return</span> <span class="n">ret</span>
+
+
+<span class="k">def</span> <span class="nf">_inv_so_metric_opt</span><span class="p">(</span><span class="n">lu_mat</span><span class="p">,</span> <span class="n">a</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; invert of lu_mat</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">rows</span><span class="p">,</span> <span class="n">cols</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">triu_indices</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="n">ret</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="n">p</span><span class="p">,</span> <span class="n">p</span><span class="p">))</span>
+    <span class="n">ret</span> <span class="o">=</span> <span class="n">ret</span><span class="o">.</span><span class="n">at</span><span class="p">[</span><span class="n">rows</span><span class="p">,</span> <span class="n">cols</span><span class="p">]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">jla</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">lu_mat</span><span class="p">,</span> <span class="n">a</span><span class="o">.</span><span class="n">take</span><span class="p">(</span><span class="n">rows</span><span class="o">*</span><span class="n">p</span><span class="o">+</span><span class="n">cols</span><span class="p">)))</span>
+    <span class="c1"># rows, cols = jnp.tril_indices(p, -1)</span>
+    <span class="n">ret</span> <span class="o">=</span> <span class="n">ret</span><span class="o">.</span><span class="n">at</span><span class="p">[</span><span class="n">cols</span><span class="p">,</span> <span class="n">rows</span><span class="p">]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">jla</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">lu_mat</span><span class="p">,</span> <span class="n">a</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">take</span><span class="p">(</span><span class="n">rows</span><span class="o">*</span><span class="n">p</span><span class="o">+</span><span class="n">cols</span><span class="p">)))</span>
+    <span class="n">ret</span> <span class="o">=</span> <span class="n">ret</span><span class="o">.</span><span class="n">at</span><span class="p">[</span><span class="n">jnp</span><span class="o">.</span><span class="n">diag_indices</span><span class="p">(</span><span class="n">p</span><span class="p">)]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="n">jnp</span><span class="o">.</span><span class="n">diag_indices</span><span class="p">(</span><span class="n">p</span><span class="p">)])</span>
+
+    <span class="k">return</span> <span class="n">ret</span>
+
+
+<div class="viewcode-block" id="unvec_skew">
+<a class="viewcode-back" href="../../../utils.html#jax_rb.utils.utils.unvec_skew">[docs]</a>
+<span class="k">def</span> <span class="nf">unvec_skew</span><span class="p">(</span><span class="n">v</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; unravel a n(n-1)//2 vector to anti hermitian matrix</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">sqrt2</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mf">2.</span><span class="p">)</span>
+    <span class="n">rows</span> <span class="o">=</span> <span class="mf">.5</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">jnp</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="mi">8</span> <span class="o">*</span> <span class="n">v</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+    <span class="n">rows</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">rows</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">rows</span><span class="p">,</span> <span class="n">rows</span><span class="p">))</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">at</span><span class="p">[</span><span class="n">jnp</span><span class="o">.</span><span class="n">triu_indices</span><span class="p">(</span><span class="n">rows</span><span class="p">,</span> <span class="mi">1</span><span class="p">)]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">T</span> <span class="o">-</span> <span class="n">result</span><span class="p">)</span><span class="o">/</span><span class="n">sqrt2</span></div>
+
+
+
+<span class="k">def</span> <span class="nf">unvec_anti_hermitian</span><span class="p">(</span><span class="n">v</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; unravel a n(n-1)//2 vector to anti hermitian matrix</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">sqrt2</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">rows</span> <span class="o">=</span> <span class="mf">.5</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">jnp</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="mi">8</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">v</span><span class="p">)))</span>
+    <span class="n">rows</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">rows</span><span class="p">))</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">rows</span><span class="p">,</span> <span class="n">rows</span><span class="p">))</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">at</span><span class="p">[</span><span class="n">jnp</span><span class="o">.</span><span class="n">triu_indices</span><span class="p">(</span><span class="n">rows</span><span class="p">,</span> <span class="mi">1</span><span class="p">)]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">conjugate</span><span class="p">()</span> <span class="o">-</span> <span class="n">result</span><span class="p">)</span><span class="o">/</span><span class="n">sqrt2</span>
+
+
+<span class="k">def</span> <span class="nf">unvech</span><span class="p">(</span><span class="n">v</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Unvvectorize a symmetric matrix to a real vector</span>
+<span class="sd">    Undoing the vech operation.</span>
+<span class="sd">    sqrt2*upper triangular part concatenate with diagonal</span>
+<span class="sd">    This is compatible with the trace(a@b) metric</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    v  : A vector</span>
+<span class="sd">    Returns</span>
+<span class="sd">    ----------</span>
+<span class="sd">    the symmetric matrix undoing the vech operation</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">sqrt2</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+    <span class="c1"># quadratic formula, correct fp error</span>
+    <span class="n">rows</span> <span class="o">=</span> <span class="mf">.5</span> <span class="o">*</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span> <span class="o">+</span> <span class="n">jnp</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="mi">8</span> <span class="o">*</span> <span class="n">v</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+    <span class="n">rows</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">rows</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+
+    <span class="n">result</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">rows</span><span class="p">,</span> <span class="n">rows</span><span class="p">))</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">at</span><span class="p">[</span><span class="n">jnp</span><span class="o">.</span><span class="n">triu_indices</span><span class="p">(</span><span class="n">rows</span><span class="p">)]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">v</span><span class="o">/</span><span class="n">jnp</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">at</span><span class="p">[</span><span class="n">jnp</span><span class="o">.</span><span class="n">diag_indices</span><span class="p">(</span><span class="n">rows</span><span class="p">)]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span>
+        <span class="n">result</span><span class="p">[</span><span class="n">jnp</span><span class="o">.</span><span class="n">diag_indices</span><span class="p">(</span><span class="n">rows</span><span class="p">)]</span><span class="o">/</span><span class="n">sqrt2</span><span class="p">)</span>
+    <span class="c1"># result = (result + result.T)/sqrt2</span>
+    <span class="c1"># divide diagonal elements by 2</span>
+
+    <span class="k">return</span> <span class="n">result</span> <span class="o">+</span> <span class="n">result</span><span class="o">.</span><span class="n">T</span>
+
+
+
+<span class="k">def</span> <span class="nf">lie</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Lie Bracket</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">a</span><span class="nd">@b</span> <span class="o">-</span> <span class="n">b</span><span class="nd">@a</span>
+
+
+<div class="viewcode-block" id="jpolar">
+<a class="viewcode-back" href="../../../utils.html#jax_rb.utils.utils.jpolar">[docs]</a>
+<span class="nd">@jit</span>
+<span class="k">def</span> <span class="nf">jpolar</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; jax polar decomposition</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">jla</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">esqrtm</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">T</span><span class="nd">@x</span><span class="p">),</span> <span class="n">x</span><span class="o">.</span><span class="n">T</span><span class="p">)</span><span class="o">.</span><span class="n">T</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Du Nguyen, Stefan Sommer.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

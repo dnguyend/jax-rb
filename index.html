@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="Python" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JAX RB: Riemannian Brownian motion on manifolds &mdash; jax_rb  documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=1e580bb1"></script>
+        <script src="_static/doctools.js?v=9a2dae69"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="jax_rb.manifolds" href="manifolds.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="#" class="icon icon-home">
+            jax_rb
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Manifolds</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="manifolds.html">jax_rb.manifolds</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Simulation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="simulation.html">jax_rb.simulation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Utils</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="utils.html">jax_rb.utils</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Other Resources:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="https://en.wikipedia.org/wiki/Stochastic_analysis_on_manifolds">Wikipedia</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/dnguyend/jax-rb">GitHub</a></li>
+<li class="toctree-l1"><a class="reference internal" href="animation.html">Animation</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="#">jax_rb</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="#" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">JAX RB: Riemannian Brownian motion on manifolds</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="jax-rb-riemannian-brownian-motion-on-manifolds">
+<h1>JAX RB: Riemannian Brownian motion on manifolds<a class="headerlink" href="#jax-rb-riemannian-brownian-motion-on-manifolds" title="Link to this heading"></a></h1>
+<p>JAX RB is a library for Riemannian Brownian motion on constrained manifolds embedded in a vector space, or on quotient of such manifolds by a compact group. The theory is developed in <a class="reference internal" href="#ngso24" id="id1"><span>[NgSo24]</span></a>. Please refer to the <a class="reference external" href="https://github.com/dnguyend/jax-rb">github repository</a> for installation instruction.</p>
+<div class="math notranslate nohighlight">
+\[\]</div>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">Manifolds</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="manifolds.html">jax_rb.manifolds</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="manifolds.html#global-manifold">Global Manifold</a></li>
+<li class="toctree-l2"><a class="reference internal" href="manifolds.html#sphere">Sphere</a></li>
+<li class="toctree-l2"><a class="reference internal" href="manifolds.html#symmetric-positive-definite-matrix-manifold">Symmetric Positive Definite Matrix Manifold</a></li>
+<li class="toctree-l2"><a class="reference internal" href="manifolds.html#stiefel-manifold">Stiefel Manifold</a></li>
+<li class="toctree-l2"><a class="reference internal" href="manifolds.html#grassmann-manifold">Grassmann Manifold</a></li>
+<li class="toctree-l2"><a class="reference internal" href="manifolds.html#hypersurface-with-diagonal-constraints-manifold">Hypersurface with Diagonal constraints Manifold</a></li>
+<li class="toctree-l2"><a class="reference internal" href="manifolds.html#matrix-lie-group-left-invariant-metric">Matrix Lie Group Left Invariant Metric</a></li>
+<li class="toctree-l2"><a class="reference internal" href="manifolds.html#mathrm-gl-n-generalized-linear-group-positive-determinant"><span class="math notranslate nohighlight">\(\mathrm{GL}^+(n)\)</span> Generalized Linear Group Positive Determinant</a></li>
+<li class="toctree-l2"><a class="reference internal" href="manifolds.html#mathrm-aff-n-affine-linear-group-positive-determinant"><span class="math notranslate nohighlight">\(\mathrm{Aff}^+(n)\)</span> Affine Linear Group Positive Determinant</a></li>
+<li class="toctree-l2"><a class="reference internal" href="manifolds.html#mathrm-sl-n-special-linear-group"><span class="math notranslate nohighlight">\(\mathrm{SL}(n)\)</span> Special Linear Group</a></li>
+<li class="toctree-l2"><a class="reference internal" href="manifolds.html#mathrm-so-n-special-orthogonal-group"><span class="math notranslate nohighlight">\(\mathrm{SO}(n)\)</span> Special Orthogonal Group</a></li>
+<li class="toctree-l2"><a class="reference internal" href="manifolds.html#mathrm-se-n-special-euclidean-group"><span class="math notranslate nohighlight">\(\mathrm{SE}(n)\)</span> Special Euclidean Group</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">Simulation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="simulation.html">jax_rb.simulation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="simulation.html#simulator">Simulator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="simulation.html#matrix-lie-group-integrator">Matrix Lie Group Integrator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="simulation.html#global-manifold-integrator">Global Manifold Integrator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="simulation.html#retractive-integrator">Retractive Integrator</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">Utils</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="utils.html">jax_rb.utils</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="utils.html#utils">Utils</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+<section id="indices-and-tables">
+<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Link to this heading"></a></h1>
+<ul class="simple">
+<li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p></li>
+<li><p><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></p></li>
+<li><p><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></p></li>
+</ul>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">Other Resources:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="https://en.wikipedia.org/wiki/Stochastic_analysis_on_manifolds">Wikipedia</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/dnguyend/jax-rb">GitHub</a></li>
+<li class="toctree-l1"><a class="reference internal" href="animation.html">Animation</a></li>
+</ul>
+</div>
+<p class="rubric">References</p>
+<div role="list" class="citation-list">
+<div class="citation" id="ngso24" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">NgSo24</a><span class="fn-bracket">]</span></span>
+<p>Nguyen, D.; Sommer, S...: Second-order differential operators, stochastic differential equations and Brownian motions on embedded manifolds <a class="reference external" href="https://arxiv.org/abs/2406.02879">arXiv:2406.02879</a>.</p>
+</div>
+</div>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="manifolds.html" class="btn btn-neutral float-right" title="jax_rb.manifolds" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Du Nguyen, Stefan Sommer.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
