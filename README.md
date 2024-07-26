@@ -1,6 +1,16 @@
 # JAX_RB: Riemannian Brownian motion
 This package provides a framework to implement Brownian motion on Riemannian manifolds. The theory is developed in [this paper](https://arxiv.org/abs/2406.02879).
 Check out the [documentation page](https://dnguyend.github.io/jax-rb/index.html).
+## WHY:
+* Simulation of SDEs on manifolds.
+* Simulation of [Riemannian Brownian motions](https://github.com/dnguyend/jax-rb/blob/main/examples/JAX_RB_Cookbook.ipynb) and [Riemannian uniform distributions](https://github.com/dnguyend/jax-rb/blob/main/tests/run/run_uniform.py).
+* Simulation of [Riemannian Langevin processes](https://github.com/dnguyend/jax-rb/blob/main/tests/notebooks/LangevinGroup.ipynb) and [sampling distributions on manifolds with given densities](https://github.com/dnguyend/jax-rb/blob/main/tests/notebooks/LangevinStiefel.ipynb).
+## WHAT:
+* Several [example manifolds](https://dnguyend.github.io/jax-rb/manifolds.html) with flexible choices of metrics.
+* Several [simulation schemes](https://dnguyend.github.io/jax-rb/simulation.html).
+* Extendable to new manifolds/new SDEs.
+
+## HOW:
 ## Installation
 Requirement: [JAX](https://jax.readthedocs.io/en/latest/installation.html) (pip install jax). If we have access to GPU then install jax cuda following JAX's installation note (for example pip install --upgrade "jax[cuda12_pip]" -f https://storage.googleapis.com/jax-releases/jax_cuda_releases.html).
 
