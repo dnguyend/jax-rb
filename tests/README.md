@@ -10,3 +10,5 @@ PYTHONPATH=., python sphere_heat_kernel.py
 ```
 
 in the tests folder, also assuming mpmath is installed. The reason that utils.heat_kernels is not in the main utils folder is we do not want to introduce the dependency of jax_rb on mpmath.
+
+* Include tests for Langevin processes on [groups](https://github.com/dnguyend/jax-rb/blob/main/tests/notebooks/LangevinGroup.ipynb), [Stiefel manifolds](https://github.com/dnguyend/jax-rb/blob/main/tests/notebooks/LangevinStiefel.ipynb) and [hypersurfaces](https://github.com/dnguyend/jax-rb/blob/main/tests/notebooks/TestRetractiveIntegrator.ipynb). Also show example of [Cayley retraction on SO(n)](https://github.com/dnguyend/jax-rb/blob/main/tests/notebooks/TestExpmAndCayleyIntegrator.ipynb)
